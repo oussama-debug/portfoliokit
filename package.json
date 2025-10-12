@@ -2,11 +2,11 @@
   "name": "my-portfolio",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "env-cmd -f ./packages/env/.env turbo run build",
     "dev": "env-cmd -f ./packages/env/.env turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "env-cmd -f ./packages/env/.env turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "env-cmd -f ./packages/env/.env turbo run check-types"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
