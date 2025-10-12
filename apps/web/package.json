@@ -14,7 +14,10 @@
     "@repo/ui": "workspace:*",
     "next": "^15.5.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "@repo/env": "workspace:*",
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

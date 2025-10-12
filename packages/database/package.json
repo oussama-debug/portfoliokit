@@ -1,0 +1,15 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "prisma": "^6.17.1",
+    "@repo/env": "workspace:*"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@prisma/client": "^6.17.1",
+    "typescript": "5.9.2"
+  }
+}
