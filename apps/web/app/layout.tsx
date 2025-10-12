@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "@repo/ui/styles/globals.css";
+import { Notification } from "../components/notification";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`overflow-x-clip bg-zinc-50 antialiased font-sans ${geistSans.variable} ${geistMono.variable}`}
+      >
         {children}
       </body>
     </html>

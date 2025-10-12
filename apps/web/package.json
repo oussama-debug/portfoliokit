@@ -11,13 +11,17 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/env": "workspace:*",
     "@repo/ui": "workspace:*",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.545.0",
     "next": "^15.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@repo/env": "workspace:*",
-    "@repo/auth": "workspace:*",
-    "@repo/db": "workspace:*"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -25,7 +29,10 @@
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
+    "@tailwindcss/postcss": "^4.1.14",
     "eslint": "^9.34.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
     "typescript": "5.9.2"
   }
 }

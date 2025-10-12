@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --color-destructive: oklch(0.55 0.22 25);
+  --color-gray-faint: oklch(94.5% 0 0);
+}
