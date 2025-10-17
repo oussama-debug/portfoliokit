@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-  "ui": "stream",
+  "ui": "tui",
   "tasks": {
     "build": {
       "dependsOn": ["^build", "^db:generate"],
@@ -22,6 +22,23 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+
+    "@repo/supabase#start": {
+      "outputs": [],
+      "cache": false
+    },
+    "@repo/supabase#generate": {
+      "dependsOn": ["@repo/supabase#start", "^generate"],
+      "outputs": []
+    },
+    "@repo/supabase#lint": {
+      "dependsOn": ["@repo/supabase#start", "check-types"],
+      "outputs": []
+    },
+    "@repo/supabase#lint:report": {
+      "dependsOn": ["@repo/supabase#start", "check-types"],
+      "outputs": []
     }
   }
 }

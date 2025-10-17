@@ -6,7 +6,8 @@
   "types": "./src/index.ts",
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "dev": "tb dev"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

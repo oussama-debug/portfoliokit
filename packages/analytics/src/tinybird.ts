@@ -11,4 +11,8 @@ export class Tinybird {
     this.m_apiDsn = env.TINYBIRD_API_DSN || _dsn;
     this.m_apiToken = env.TINYBIRD_API_KEY || _token;
   }
+
+  async query<T>(query: string): Promise<T> {
+    return {} as T;
+  }
 }

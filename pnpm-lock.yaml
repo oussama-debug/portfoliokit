@@ -342,6 +342,24 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  supabase:
+    devDependencies:
+      '@repo/env':
+        specifier: workspace:*
+        version: link:../packages/env
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../packages/typescript-config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
+
 packages:
 
   '@alloc/quick-lru@5.2.0':
