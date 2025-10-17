@@ -25,7 +25,7 @@ const notificationVariants = cva(
       variant: "destructive",
       padding: "medium",
     },
-  }
+  },
 );
 
 const stripeVariants = cva("absolute inset-0", {

@@ -7,6 +7,8 @@ export const env = createEnv({
       .enum(["development", "production", "test"])
       .default("development"),
     DATABASE_URL: z.string(),
+    TINYBIRD_API_KEY: z.string().min(12),
+    TINYBIRD_API_DSN: z.string().min(12),
   },
   clientPrefix: "NEXT_PUBLIC_",
   client: {},

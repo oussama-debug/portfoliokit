@@ -3,3 +3,6 @@ help:
 
 dev.web:
 	pnpm run dev --filter web
+
+dev.gateway:
+	pnpm run dev --filter gateway

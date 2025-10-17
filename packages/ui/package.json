@@ -21,6 +21,7 @@
     "typescript": "5.9.2"
   },
   "dependencies": {
+    "@base-ui-components/react": "1.0.0-beta.4",
     "@tailwindcss/postcss": "^4.1.14",
     "postcss": "^8.5.6",
     "react": "^19.1.0",
