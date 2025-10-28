@@ -1,6 +1,168 @@
 @import "tailwindcss";
 
 @theme {
+  --color-brand-dark: #211d2d;
+  --color-brand-purple: #9c66ff;
+  --color-brand-cyan: #13d3e9;
+  --color-brand-violet: #592ce5;
+
   --color-destructive: oklch(0.55 0.22 25);
+  --color-destructive-foreground: oklch(0.505 0.213 27.518);
   --color-gray-faint: oklch(94.5% 0 0);
+  --color-primary: #592ce5;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #211d2d;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: oklch(0.96 0.006 264.052);
+  --color-muted-foreground: oklch(0.45 0.015 264.052);
+  --color-accent: #9c66ff;
+  --color-accent-foreground: #ffffff;
+  --color-border: oklch(0.89 0.005 264.052);
+  --color-input: oklch(0.89 0.005 264.052);
+  --color-ring: #592ce5;
+  --color-background: oklch(1 0 0);
+  --color-foreground: #211d2d;
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: #211d2d;
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: #211d2d;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --color-destructive-foreground: oklch(0.704 0.191 22.216);
+  --color-primary: #9c66ff;
+  --color-primary-foreground: #211d2d;
+  --color-secondary: #592ce5;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #211d2d;
+  --color-muted-foreground: oklch(0.64 0.015 264.052);
+  --color-accent: #13d3e9;
+  --color-accent-foreground: #211d2d;
+  --color-border: oklch(0.27 0.015 264.052);
+  --color-input: oklch(0.27 0.015 264.052);
+  --color-ring: #9c66ff;
+  --color-background: #211d2d;
+  --color-foreground: #ffffff;
+  --color-card: #211d2d;
+  --color-card-foreground: #ffffff;
+  --color-popover: #211d2d;
+  --color-popover-foreground: #ffffff;
+}
+
+.shadow-premium {
+  box-shadow:
+    0px 1px 3px 0px rgba(26, 41, 61, 0.15),
+    0px 7px 12px -5px rgba(26, 41, 61, 0.18),
+    0px 1px 1px 0px rgba(255, 255, 255, 0.2) inset,
+    0px 6px 12px -8px rgba(0, 0, 0, 0.42),
+    0px 1px 3px 0px rgba(39, 44, 48, 0.2);
+}
+
+.shadow-premium-brand {
+  box-shadow:
+    0px 1px 3px 0px rgba(89, 44, 229, 0.15),
+    0px 7px 12px -5px rgba(89, 44, 229, 0.18),
+    0px 1px 1px 0px rgba(255, 255, 255, 0.2) inset,
+    0px 6px 12px -8px rgba(33, 29, 45, 0.42),
+    0px 1px 3px 0px rgba(33, 29, 45, 0.2);
+}
+
+.shadow-premium-purple {
+  box-shadow:
+    0px 1px 3px 0px rgba(156, 102, 255, 0.15),
+    0px 7px 12px -5px rgba(156, 102, 255, 0.18),
+    0px 1px 1px 0px rgba(255, 255, 255, 0.2) inset,
+    0px 6px 12px -8px rgba(33, 29, 45, 0.42),
+    0px 1px 3px 0px rgba(33, 29, 45, 0.2);
+}
+
+.shadow-premium-cyan {
+  box-shadow:
+    0px 1px 3px 0px rgba(19, 211, 233, 0.15),
+    0px 7px 12px -5px rgba(19, 211, 233, 0.18),
+    0px 1px 1px 0px rgba(255, 255, 255, 0.2) inset,
+    0px 6px 12px -8px rgba(33, 29, 45, 0.42),
+    0px 1px 3px 0px rgba(33, 29, 45, 0.2);
+}
+
+.shadow-premium-active {
+  box-shadow: none;
+}
+
+.corner-decorations {
+  position: relative;
+}
+
+.corner-decorations .corner-tl,
+.corner-decorations .corner-tr,
+.corner-decorations .corner-bl,
+.corner-decorations .corner-br {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-accent);
+  opacity: 0;
+  transition: all 200ms ease-out;
+}
+
+.corner-decorations:hover .corner-tl,
+.corner-decorations:hover .corner-tr,
+.corner-decorations:hover .corner-bl,
+.corner-decorations:hover .corner-br {
+  opacity: 1;
+}
+
+.corner-decorations .corner-tl {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 6px 0 0 0;
+}
+
+.corner-decorations:hover .corner-tl {
+  transform: translate(-8px, -8px);
+  border-radius: 9px 0 0 0;
+}
+
+.corner-decorations .corner-tr {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0 6px 0 0;
+}
+
+.corner-decorations:hover .corner-tr {
+  transform: translate(8px, -8px);
+  border-radius: 0 9px 0 0;
+}
+
+.corner-decorations .corner-bl {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+  border-radius: 0 0 0 6px;
+}
+
+.corner-decorations:hover .corner-bl {
+  transform: translate(-8px, 8px);
+  border-radius: 0 0 0 9px;
+}
+
+.corner-decorations .corner-br {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 6px 0;
+}
+
+.corner-decorations:hover .corner-br {
+  transform: translate(8px, 8px);
+  border-radius: 0 0 9px 0;
 }
