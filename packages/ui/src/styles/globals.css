@@ -1,4 +1,3 @@
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -12,9 +11,17 @@
   --color-info-foreground: var(--info-foreground);
   --color-info: var(--info);
   --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-destructive: oklch(0.55 0.22 25);
+  --color-gray-faint: oklch(94.5% 0 0);
+  --color-border: oklch(0.9 0.01 0);
+  --color-ring: oklch(0.7 0.1 240);
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.2 0 0);
+
   @keyframes skeleton {
-  to {
-    background-position: -200% 0;
+    to {
+      background-position: -200% 0;
     }
   }
 }
