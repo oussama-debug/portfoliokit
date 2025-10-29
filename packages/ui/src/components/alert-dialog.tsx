@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { AlertDialog as AlertDialogPrimitive } from "@base-ui-components/react/alert-dialog"
+import { AlertDialog as AlertDialogPrimitive } from "@base-ui-components/react/alert-dialog";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
 function AlertDialog(props: AlertDialogPrimitive.Root.Props) {
-  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />
+  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 }
 
 function AlertDialogTrigger(props: AlertDialogPrimitive.Trigger.Props) {
   return (
     <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
-  )
+  );
 }
 
 function AlertDialogPortal(props: AlertDialogPrimitive.Portal.Props) {
-  return <AlertDialogPrimitive.Portal {...props} />
+  return <AlertDialogPrimitive.Portal {...props} />;
 }
 
 function AlertDialogBackdrop({
@@ -31,7 +31,7 @@ function AlertDialogBackdrop({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function AlertDialogPopup({
@@ -55,7 +55,7 @@ function AlertDialogPopup({
         </div>
       </div>
     </AlertDialogPortal>
-  )
+  );
 }
 
 function AlertDialogHeader({
@@ -68,7 +68,7 @@ function AlertDialogHeader({
       className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
       {...props}
     />
-  )
+  );
 }
 
 function AlertDialogFooter({
@@ -84,7 +84,7 @@ function AlertDialogFooter({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function AlertDialogTitle({
@@ -97,7 +97,7 @@ function AlertDialogTitle({
       className={cn("text-lg font-semibold", className)}
       {...props}
     />
-  )
+  );
 }
 
 function AlertDialogDescription({
@@ -110,13 +110,13 @@ function AlertDialogDescription({
       className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 function AlertDialogClose(props: AlertDialogPrimitive.Close.Props) {
   return (
     <AlertDialogPrimitive.Close data-slot="alert-dialog-close" {...props} />
-  )
+  );
 }
 
 export {
@@ -132,4 +132,4 @@ export {
   AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogClose,
-}
+};
