@@ -27,7 +27,7 @@ export function WeekRender() {
               <div
                 key={i}
                 className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 hover:bg-primary/5"
-                onClick={() => {}}
+                onClick={() => { }}
               ></div>
             ))}
 
@@ -35,7 +35,7 @@ export function WeekRender() {
               <div
                 className={cn("absolute rounded-full h-0.5 w-full bg-primary")}
                 style={{
-                  top: `${(selectedDate.hour() / 24) * 100}%`,
+                  top: `${((currentTime.hour() * 60 + currentTime.minute()) / (24 * 60)) * 100}%`,
                 }}
               />
             )}
