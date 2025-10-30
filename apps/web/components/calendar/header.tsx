@@ -52,7 +52,7 @@ export function CalendarHeader() {
                 size={"sm"}
                 variant={"outline"}
                 onClick={() => {
-                  reset;
+                  reset();
                 }}
               />
             }
