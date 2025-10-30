@@ -1,5 +1,5 @@
 help:
 	@echo "Usage -> make <namespace>.<app>"
 
-dev.web:
-	pnpm run dev --filter "@repo/web"
+dev:
+	pnpm run dev

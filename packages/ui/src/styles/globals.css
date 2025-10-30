@@ -35,7 +35,8 @@
 
   --color-muted: oklch(0.961 0 0);
   --color-muted-foreground: oklch(0.455 0.012 286.375);
-
+  --font-sans: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
   @keyframes skeleton {
     to {
       background-position: -200% 0;
