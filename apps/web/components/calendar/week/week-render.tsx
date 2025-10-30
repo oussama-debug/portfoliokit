@@ -23,7 +23,7 @@ export function WeekRender() {
 
         return (
           <div key={index} className="relative border-r border-gray-faint">
-            {getHours.map((hour, i) => (
+            {getHours.map((_, i) => (
               <div
                 key={i}
                 className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 hover:bg-primary/5"
@@ -33,7 +33,7 @@ export function WeekRender() {
 
             {isCurrentDay(dayDate) && today && (
               <div
-                className={cn("absolute h-0.5 w-full bg-red-500")}
+                className={cn("absolute rounded-full h-0.5 w-full bg-primary")}
                 style={{
                   top: `${(selectedDate.hour() / 24) * 100}%`,
                 }}
