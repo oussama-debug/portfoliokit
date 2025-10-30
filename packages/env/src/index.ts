@@ -12,6 +12,9 @@ export const env = createEnv({
 
     TINYBIRD_API_KEY: z.string().min(12),
     TINYBIRD_API_DSN: z.string().min(12),
+
+    TWILIO_ACCOUNT_SID: z.string().min(10),
+    TWILIO_ACCOUNT_TOKEN: z.string().min(10),
   },
   clientPrefix: "NEXT_PUBLIC_",
   client: {},
