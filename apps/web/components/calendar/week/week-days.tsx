@@ -6,9 +6,9 @@ import { getWeekDays } from "../../../lib/calendar";
 
 export function WeekDays({ selectedDate }: { selectedDate: Dayjs }) {
   return (
-    <div className="grid py-2 border-b border-gray-faint grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr] place-items-center">
+    <div className="grid border-b py-2 border-gray-faint grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr] place-items-center">
       <div className="w-16 border-r border-gray-300">
-        {/** ici je mets les différents calendriers, timezones, etc */}
+        <div className="w-16 border-r border-gray-faint"></div>
       </div>
       {getWeekDays(selectedDate).map(({ currentDate, today }, index) => (
         <div
