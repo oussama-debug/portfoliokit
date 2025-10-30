@@ -1,5 +1,5 @@
 {
-  "name": "portfoliosixkit",
+  "name": "my-portfolio",
   "private": true,
   "scripts": {
     "build": "env-cmd -f ./packages/env/.env turbo run build",
