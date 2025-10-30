@@ -16,12 +16,7 @@ export function Header() {
             </Link>
           </div>
           <div className="flex gap-2">
-            <Link href={"/login"}>
-              <Button variant={"ghost"}>Sign in</Button>
-            </Link>
-            <Link href={"/register"}>
-              <Button variant={"default"}>Get started for free</Button>
-            </Link>
+            <Button variant={"default"}>Get started for free</Button>
           </div>
         </div>
         <SparkleIcon className="absolute -bottom-[27px] -left-[107.5px]" />

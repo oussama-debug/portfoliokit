@@ -6,8 +6,7 @@
     "dev": "env-cmd -f ./packages/env/.env turbo run dev",
     "lint": "env-cmd -f ./packages/env/.env turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "env-cmd -f ./packages/env/.env turbo run check-types",
-    "setup": "env-cmd -f ./packages/env/.env turbo run setup"
+    "check-types": "env-cmd -f ./packages/env/.env turbo run check-types"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
