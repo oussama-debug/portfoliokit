@@ -19,26 +19,28 @@
     "db:push": {
       "cache": false
     },
+    "setup": {
+      "dependsOn": ["^build"],
+      "env": [
+        "API_DATABASE_USERNAME",
+        "API_DATABASE_PASSWORD",
+        "API_DATABASE_NAME",
+        "API_DATABASE_HOST",
+        "API_DATABASE_PORT",
+        "API_SECRET_KEY_BASE"
+      ]
+    },
     "dev": {
       "cache": false,
-      "persistent": true
-    },
-
-    "@repo/supabase#start": {
-      "outputs": [],
-      "cache": false
-    },
-    "@repo/supabase#generate": {
-      "dependsOn": ["@repo/supabase#start", "^generate"],
-      "outputs": []
-    },
-    "@repo/supabase#lint": {
-      "dependsOn": ["@repo/supabase#start", "check-types"],
-      "outputs": []
-    },
-    "@repo/supabase#lint:report": {
-      "dependsOn": ["@repo/supabase#start", "check-types"],
-      "outputs": []
+      "persistent": true,
+      "env": [
+        "API_DATABASE_USERNAME",
+        "API_DATABASE_PASSWORD",
+        "API_DATABASE_NAME",
+        "API_DATABASE_HOST",
+        "API_DATABASE_PORT",
+        "API_SECRET_KEY_BASE"
+      ]
     }
   }
 }

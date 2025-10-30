@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@repo/auth": "workspace:*",
-    "@repo/db": "workspace:*",
     "@repo/env": "workspace:*",
     "@repo/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",

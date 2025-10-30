@@ -6,12 +6,14 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
-    DATABASE_URL: z.string(),
-    SUPABASE_URL: z.string(),
-    SUPABASE_ANON_KEY: z.string(),
 
-    TINYBIRD_API_KEY: z.string().min(12),
-    TINYBIRD_API_DSN: z.string().min(12),
+    API_DATABASE_USERNAME: z.string(),
+    API_DATABASE_PASSWORD: z.string(),
+    API_DATABASE_NAME: z.string(),
+    API_DATABASE_HOST: z.string(),
+    API_DATABASE_PORT: z.string().default("5432"),
+
+    API_SECRET_KEY_BASE: z.string().min(32),
 
     TWILIO_ACCOUNT_SID: z.string().min(10),
     TWILIO_ACCOUNT_TOKEN: z.string().min(10),
