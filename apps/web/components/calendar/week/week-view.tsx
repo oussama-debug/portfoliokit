@@ -24,7 +24,7 @@ export function WeekView() {
           {/* @TODO: ici je mets les all days */}
         </div>
         <div
-          className="grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"
+          className="grid mt-6.5 grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"
           style={{ minHeight: `${24 * 64}px` }}
         >
           <WeekHours />

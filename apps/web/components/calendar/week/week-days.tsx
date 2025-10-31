@@ -13,12 +13,14 @@ export function WeekDays({ selectedDate }: { selectedDate: Dayjs }) {
       {getWeekDays(selectedDate).map(({ currentDate, today }, index) => (
         <div
           key={index}
-          className="flex text-sm font-medium space-x-1 flex-row items-center"
+          className="flex text-sm font-normal space-x-1 flex-row items-center"
         >
-          <div className={cn(today && "text-primary")}>
+          <div className={cn(today && "text-primary font-medium")}>
             {currentDate.format("ddd")}
           </div>
-          <div className={cn("rounded-full", today && "text-primary")}>
+          <div
+            className={cn("rounded-full", today && "text-primary font-medium")}
+          >
             {currentDate.format("DD")}
           </div>
         </div>

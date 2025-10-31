@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@hugeicons/core-free-icons": "^1.2.1",
+    "@hugeicons/react": "^1.1.1",
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/env": "workspace:*",
