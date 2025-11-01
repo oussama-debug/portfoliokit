@@ -54,7 +54,3 @@ routes.post("/logout", zValidator("json", logoutSchema), async (_context) => {
 
   return _context.json({ success: true });
 });
-
-routes.get("/me", isAuthenticated, async (_context) => {
-  return _context.json({ success: true, message: "Yes authenticated" });
-});
