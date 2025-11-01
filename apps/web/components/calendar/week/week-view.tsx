@@ -14,17 +14,20 @@ export function WeekView() {
     <section className="w-full min-h-[calc(100vh-45px)]">
       <WeekDays selectedDate={selectedDate} />
       <ScrollArea className={"w-full relative lg:h-[calc(100vh-81px)]"}>
-        <div
+        {/*<div
           className={cn(
             "grid fixed z-50 grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]",
             "cursor-not-allowed bg-zinc-50 w-full border-b border-gray-faint"
           )}
           style={{ minHeight: `26px` }}
         >
-          {/* @TODO: ici je mets les all days */}
-        </div>
+         @TODO: ici je mets les all days 
+        </div>*/}
         <div
-          className="grid mt-6.5 grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"
+          className={cn(
+            "grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"
+            //"mt-6.5"
+          )}
           style={{ minHeight: `${24 * 64}px` }}
         >
           <WeekHours />

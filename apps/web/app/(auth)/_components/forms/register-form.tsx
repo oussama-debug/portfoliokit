@@ -7,7 +7,6 @@ import {
   FieldError,
   FieldLabel,
 } from "@repo/ui/components/field";
-import { Group, GroupItem, GroupSeparator } from "@repo/ui/components/group";
 import { Separator } from "@repo/ui/components/separator";
 import { Input } from "@repo/ui/components/input";
 import { useForm } from "react-hook-form";
@@ -15,14 +14,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const registerSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username must be less than 20 characters")
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      "Username can only contain letters, numbers, underscores, and hyphens"
-    ),
   email: z.email("Please enter a valid email address"),
   password: z
     .string()
@@ -46,39 +37,15 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full flex-col gap-4 gap-y-2"
+    >
       <Field>
-        <FieldLabel>Username</FieldLabel>
-        <Group className="w-full">
-          <GroupItem
-            render={(p) => (
-              <Input
-                {...p}
-                type="text"
-                {...register("username")}
-                defaultValue="acme-tech"
-              />
-            )}
-          />
-          <GroupSeparator />
-          <GroupItem
-            render={
-              <Button variant="outline" size={"sm"} aria-label="Copy" />
-            }
-          >
-            <span>zenlane.sh</span>
-          </GroupItem>
-        </Group>
-        <FieldDescription>
-          Your username is unique and can be changed later.
-        </FieldDescription>
-        {errors.username && <FieldError>{errors.username.message}</FieldError>}
-      </Field>
-      <Field>
-        <FieldLabel>E-mail</FieldLabel>
         <Input
           type="email"
           placeholder="john@acme.com"
+          autoFocus
           {...register("email")}
         />
         <FieldDescription>
@@ -87,7 +54,6 @@ export function RegisterForm() {
         {errors.email && <FieldError>{errors.email.message}</FieldError>}
       </Field>
       <Field>
-        <FieldLabel>Password</FieldLabel>
         <Input
           type="password"
           placeholder="••••••••"
@@ -99,9 +65,11 @@ export function RegisterForm() {
         </FieldDescription>
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </Field>
-      <Button type="submit">Continue</Button>
+      <Button type="submit" className="mt-1 mb-1">
+        Continue
+      </Button>
       <Separator />
-      <div className="flex flex-col space-y-2 w-full">
+      <div className="flex flex-col space-y-2 mt-1 w-full">
         <Button disabled={isSubmitting} type="submit" variant={"outline"}>
           Continue with Google
         </Button>
