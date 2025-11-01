@@ -1,6 +1,5 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 import { env } from "@repo/env";
 
 type GatewayAuthResponse = {
@@ -60,7 +59,7 @@ async function refreshToken(
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
       name: "credentials",
@@ -104,7 +103,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
 
       if (trigger === "update" && token.refresh_token) {
-        const refreshed = await refreshToken(token.refresh_token as string);
+        const refreshed = await refreshToken(token.refresh_token);
         if (refreshed && refreshed.success) {
           token.access_token = refreshed.session.access_token;
           token.refresh_token = refreshed.session.refresh_token;
@@ -115,11 +114,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id as string;
-        session.user.username = token.username as string;
-        session.user.email_confirmed = token.email_confirmed as boolean;
-        session.access_token = token.access_token as string;
-        session.refresh_token = token.refresh_token as string;
+        session.user.id = token.id;
+        session.user.username = token.username;
+        session.user.email_confirmed = token.email_confirmed;
+        session.access_token = token.access_token;
+        session.refresh_token = token.refresh_token;
       }
       return session;
     },
@@ -134,4 +133,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     newUser: "/register",
   },
   secret: env.NEXTAUTH_SECRET,
-});
+} satisfies NextAuthConfig;
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
