@@ -10,9 +10,9 @@ export function CalendarHeader() {
     useCalendarStore();
 
   return (
-    <div className="w-full lg:px-4 bg-primary-foreground space-x-2 py-2 flex flex-row justify-between items-center">
+    <div className="w-full lg:px-4 border-r bg-primary-foreground space-x-2 py-2 flex flex-row justify-between items-center">
       <div className="flex space-x-3 items-center justify-center">
-        <span className="font-sans font-semibold text-sm">
+        <span className="font-sans min-w-[115px] font-semibold text-sm">
           {selectedDate.format("MMMM Do")}
         </span>
         <Group>

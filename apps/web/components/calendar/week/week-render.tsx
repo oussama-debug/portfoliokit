@@ -27,7 +27,7 @@ export function WeekRender() {
               <div
                 key={i}
                 className="relative flex h-16 cursor-pointer flex-col items-center gap-y-2 hover:bg-primary/5"
-                onClick={() => { }}
+                onClick={() => {}}
               ></div>
             ))}
 

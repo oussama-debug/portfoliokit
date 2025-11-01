@@ -5,6 +5,9 @@ import { dayjs } from "../calendar";
 interface CalendarState {
   selectedDate: Dayjs;
   view: "week" | "month";
+  assist: boolean;
+
+  setAssist: (assist: boolean) => void;
 
   setSelectedView: (view: "week" | "month") => void;
   setSelectedDate: (date: Dayjs) => void;
@@ -19,7 +22,9 @@ interface CalendarState {
 export const useCalendarStore = create<CalendarState>((set) => ({
   selectedDate: dayjs(),
   view: "week",
+  assist: false,
 
+  setAssist: (assist: boolean) => set({ assist }),
   setSelectedView: (view: "week" | "month") => set({ view }),
   setSelectedDate: (date: Dayjs) => set({ selectedDate: date }),
   reset: () => set({ selectedDate: dayjs() }),

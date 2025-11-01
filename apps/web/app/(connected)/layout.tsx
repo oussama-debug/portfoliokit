@@ -1,3 +1,4 @@
+import { Assistant } from "../../components/assistant";
 import { Sidebar } from "../../components/sidebar";
 
 export default async function ConnectedLayout({
@@ -9,6 +10,7 @@ export default async function ConnectedLayout({
     <section className="bg-primary-foreground flex flex-row justify-start items-start w-full">
       <Sidebar />
       {children}
+      <Assistant />
     </section>
   );
 }

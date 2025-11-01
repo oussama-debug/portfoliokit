@@ -1,38 +1,34 @@
 "use client";
 
 import { Button } from "@repo/ui/components/button";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from "@repo/ui/components/field";
-import { Group, GroupItem, GroupSeparator } from "@repo/ui/components/group";
+import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
 import { Separator } from "@repo/ui/components/separator";
 import { Input } from "@repo/ui/components/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const registerSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username must be less than 20 characters")
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      "Username can only contain letters, numbers, underscores, and hyphens"
-    ),
-  email: z.email("Please enter a valid email address"),
+  email: z.string().email("Please enter a valid email address"),
   password: z
     .string()
-    .min(16, "Password must be at least 16 characters long")
-    .regex(/\d/, "Password must contain at least one number"),
+    .min(8, "Password must be at least 8 characters long")
+    .max(128, "Password must not exceed 128 characters")
+    .regex(
+      /(?=.*[a-zA-Z])(?=.*\d)/,
+      "Password must contain at least one letter and one number"
+    ),
 });
 
 type RegisterType = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -42,43 +38,53 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterType) => {
-    // form
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: data.email,
+          password: data.password,
+        }),
+      }
+    );
+
+    if (!response.ok) return;
+
+    const { error } = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    console.log(data);
+    if (error) {
+      return;
+    }
+
+    router.push("/scheduled");
+  };
+
+  const handleGoogleSignIn = async () => {
+    await signIn("google", { callbackUrl: "/scheduled" });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full flex-col gap-4 gap-y-2"
+    >
+      {error && (
+        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+          {error}
+        </div>
+      )}
+
       <Field>
-        <FieldLabel>Username</FieldLabel>
-        <Group className="w-full">
-          <GroupItem
-            render={(p) => (
-              <Input
-                {...p}
-                type="text"
-                {...register("username")}
-                defaultValue="acme-tech"
-              />
-            )}
-          />
-          <GroupSeparator />
-          <GroupItem
-            render={
-              <Button variant="outline" size={"sm"} aria-label="Copy" />
-            }
-          >
-            <span>zenlane.sh</span>
-          </GroupItem>
-        </Group>
-        <FieldDescription>
-          Your username is unique and can be changed later.
-        </FieldDescription>
-        {errors.username && <FieldError>{errors.username.message}</FieldError>}
-      </Field>
-      <Field>
-        <FieldLabel>E-mail</FieldLabel>
         <Input
           type="email"
           placeholder="john@acme.com"
+          autoFocus
           {...register("email")}
         />
         <FieldDescription>
@@ -86,23 +92,33 @@ export function RegisterForm() {
         </FieldDescription>
         {errors.email && <FieldError>{errors.email.message}</FieldError>}
       </Field>
+
       <Field>
-        <FieldLabel>Password</FieldLabel>
         <Input
           type="password"
           placeholder="••••••••"
           {...register("password")}
         />
         <FieldDescription>
-          Your password must be 16 characters long and contain at least one
-          number.
+          Your password must be at least 8 characters long and contain at least
+          one letter and one number.
         </FieldDescription>
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </Field>
-      <Button type="submit">Continue</Button>
+
+      <Button type="submit" disabled={isSubmitting} className="mt-1 mb-1">
+        {isSubmitting ? "Creating account..." : "Continue"}
+      </Button>
+
       <Separator />
-      <div className="flex flex-col space-y-2 w-full">
-        <Button disabled={isSubmitting} type="submit" variant={"outline"}>
+
+      <div className="flex flex-col space-y-2 mt-1 w-full">
+        <Button
+          disabled={isSubmitting}
+          type="button"
+          variant="outline"
+          onClick={handleGoogleSignIn}
+        >
           Continue with Google
         </Button>
       </div>
