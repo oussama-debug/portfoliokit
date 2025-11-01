@@ -20,6 +20,13 @@
       "cache": false
     },
     "dev": {
+      "env": [
+        "DATABASE_URL",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "TWILIO_ACCOUNT_TOKEN",
+        "TWILIO_ACCOUNT_SID"
+      ],
       "cache": false,
       "persistent": true
     },

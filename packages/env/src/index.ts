@@ -10,9 +10,6 @@ export const env = createEnv({
     SUPABASE_URL: z.string(),
     SUPABASE_ANON_KEY: z.string(),
 
-    TINYBIRD_API_KEY: z.string().min(12),
-    TINYBIRD_API_DSN: z.string().min(12),
-
     TWILIO_ACCOUNT_SID: z.string().min(10),
     TWILIO_ACCOUNT_TOKEN: z.string().min(10),
   },

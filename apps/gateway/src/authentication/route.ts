@@ -7,6 +7,7 @@ import {
   refreshSchema,
 } from "./validator.js";
 import { Application } from "@/application.js";
+import { isAuthenticated } from "./middleware.js";
 
 export const routes = new Hono();
 
@@ -52,4 +53,8 @@ routes.post("/logout", zValidator("json", logoutSchema), async (_context) => {
   await auth_service.signout(token);
 
   return _context.json({ success: true });
+});
+
+routes.get("/me", isAuthenticated, async (_context) => {
+  return _context.json({ success: true, message: "Yes authenticated" });
 });
