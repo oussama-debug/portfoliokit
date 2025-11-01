@@ -6,7 +6,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
-    DATABASE_URL: z.string(),
+    POSTGRES_URL: z.string(),
     SUPABASE_URL: z.string(),
     SUPABASE_ANON_KEY: z.string(),
 

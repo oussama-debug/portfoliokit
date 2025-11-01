@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "env": [
-        "DATABASE_URL",
+        "POSTGRES_URL",
         "SUPABASE_URL",
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
@@ -30,7 +30,7 @@
     },
     "dev": {
       "env": [
-        "DATABASE_URL",
+        "POSTGRES_URL",
         "SUPABASE_URL",
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
