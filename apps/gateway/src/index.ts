@@ -5,6 +5,8 @@ import { secureHeaders } from "hono/secure-headers";
 import { logger } from "hono/logger";
 import { csrf } from "hono/csrf";
 
+import { routes as auth_routes } from "./authentication/route.js";
+
 const isDevelopment = process.env.NODE_ENV === "development";
 const port = 4000;
 
@@ -22,6 +24,8 @@ app.use(
 app.use(secureHeaders());
 app.use(logger());
 app.use(prettyJSON());
+
+app.route("/v1/gateway/auth", auth_routes);
 
 serve({
   fetch: app.fetch,

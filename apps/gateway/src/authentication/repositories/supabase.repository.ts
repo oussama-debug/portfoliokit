@@ -6,7 +6,7 @@ import {
   InternalError,
   InvalidCredentialsError,
   TokenRefreshError,
-} from "../errors.js";
+} from "../../error.js";
 
 export class SupabaseAuthenticationRepository
   implements AuthenticationRepository

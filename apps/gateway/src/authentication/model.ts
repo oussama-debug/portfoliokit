@@ -71,6 +71,13 @@ export class Session {
     return this._refresh_token;
   }
 
+  toObject() {
+    return {
+      access_token: this.access_token,
+      refresh_token: this.refresh_token,
+    };
+  }
+
   static fromSupabaseSession(supabaseSession: SupabaseSession): Session {
     return new Session(
       supabaseSession.access_token,
