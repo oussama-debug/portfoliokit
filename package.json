@@ -2,7 +2,7 @@
   "name": "my-portfolio",
   "private": true,
   "scripts": {
-    "build": "env-cmd -f ./packages/env/.env turbo run build",
+    "build": "turbo run build",
     "dev": "env-cmd -f ./packages/env/.env turbo run dev",
     "lint": "env-cmd -f ./packages/env/.env turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
