@@ -30,9 +30,29 @@ export class SupabaseAuthenticationRepository
       throw new CreateUserError(`Failed to create user: ${error?.message}`);
     }
 
+
+    if (!data.session) {
+      const { data: signIn, error: signInError } = 
+        await this._supabaseClient.auth.signInWithPassword({
+          email: username,
+          password: password,
+        });
+
+      if (signInError || !signIn.session) {
+        throw new CreateUserError(
+          `User created but failed to create session: ${signInError?.message}`
+        );
+      }
+
+      return {
+        user: User.fromSupabaseUser(data.user),
+        session: Session.fromSupabaseSession(signIn.session),
+      };
+    }
+
     return {
       user: User.fromSupabaseUser(data.user),
-      session: Session.fromSupabaseSession(data.session!),
+      session: Session.fromSupabaseSession(data.session),
     };
   }
 
