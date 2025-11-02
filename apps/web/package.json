@@ -14,7 +14,6 @@
     "@hookform/resolvers": "^5.2.2",
     "@hugeicons/core-free-icons": "^1.2.1",
     "@hugeicons/react": "^1.1.1",
-    "@repo/db": "workspace:*",
     "@repo/env": "workspace:*",
     "@repo/ui": "workspace:*",
     "bcryptjs": "^3.0.2",

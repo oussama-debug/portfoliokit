@@ -2,13 +2,17 @@
   "name": "@repo/supabase",
   "version": "0.0.0",
   "private": true,
+  "exports": {
+    ".": "./src/database.types.ts"
+  },
   "scripts": {
-    "dev": "supabase status || supabase start",
+    "dev": "(supabase status || supabase start); pnpm run generate",
     "reset": "supabase db reset || supabase start",
     "test": "supabase db test",
     "lint": "supabase db lint",
     "lint:report": "supabase db lint",
-    "deploy": "supabase link --project-ref $SUPABASE_PROJECT_REF && supabase db push"
+    "deploy": "supabase link --project-ref $SUPABASE_PROJECT_REF && supabase db push",
+    "generate": "supabase gen types typescript --local > ./src/database.types.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

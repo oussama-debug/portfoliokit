@@ -23,6 +23,15 @@
       "dependsOn": ["^check-types"]
     },
     "db:generate": {
+      "env": [
+        "POSTGRES_URL",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "TWILIO_ACCOUNT_TOKEN",
+        "TWILIO_ACCOUNT_SID",
+        "NEXTAUTH_URL",
+        "NEXTAUTH_SECRET"
+      ],
       "cache": false
     },
     "db:push": {

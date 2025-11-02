@@ -7,6 +7,7 @@ import {
   InvalidCredentialsError,
   TokenRefreshError,
 } from "../../error.js";
+import { Database } from "@repo/supabase";
 
 export class SupabaseAuthenticationRepository
   implements AuthenticationRepository
@@ -14,7 +15,7 @@ export class SupabaseAuthenticationRepository
   private _supabaseClient: SupabaseClient;
 
   constructor(_supabaseUrl: string, _supabaseKey: string) {
-    this._supabaseClient = createClient(_supabaseUrl, _supabaseKey);
+    this._supabaseClient = createClient<Database>(_supabaseUrl, _supabaseKey);
   }
 
   async create(
@@ -30,9 +31,8 @@ export class SupabaseAuthenticationRepository
       throw new CreateUserError(`Failed to create user: ${error?.message}`);
     }
 
-
     if (!data.session) {
-      const { data: signIn, error: signInError } = 
+      const { data: signIn, error: signInError } =
         await this._supabaseClient.auth.signInWithPassword({
           email: username,
           password: password,
