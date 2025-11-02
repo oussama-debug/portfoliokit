@@ -7,7 +7,6 @@ import {
   refreshSchema,
 } from "./validator.js";
 import { Application } from "@/application.js";
-import { isAuthenticated } from "./middleware.js";
 
 export const routes = new Hono();
 

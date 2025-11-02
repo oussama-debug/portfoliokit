@@ -8,6 +8,7 @@ import { cors } from "hono/cors";
 import { routes as auth_routes } from "./authentication/route.js";
 import { Application } from "./application.js";
 import { env } from "@repo/env";
+import { handleErrors } from "./error.js";
 
 const isDevelopment = env.NODE_ENV === "development";
 const port = 4000;
@@ -29,7 +30,28 @@ app.use(secureHeaders());
 app.use(logger());
 app.use(prettyJSON());
 
+app.get("/health", (_context) => {
+  return _context.json({
+    success: true,
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.route("/v1/gateway/auth", auth_routes);
+
+app.notFound((_context) => {
+  return _context.json(
+    {
+      success: false,
+      code: "not_found",
+      message: "Route not found",
+    },
+    404
+  );
+});
+
+app.onError(handleErrors);
 
 serve({
   fetch: app.fetch,
