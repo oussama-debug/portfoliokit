@@ -5,18 +5,23 @@ import {
   InternalError,
   InvalidCredentialsError,
   TokenRefreshError,
-} from "../../error";
-import { Session, User } from "../model";
-import type { AuthenticationRepository } from "../repository";
+} from "../../error.js";
+import { Session, User } from "../model.js";
+import type { AuthenticationRepository } from "../repository.js";
 
-export class SupabaseAuthenticationRepository implements AuthenticationRepository {
+export class SupabaseAuthenticationRepository
+  implements AuthenticationRepository
+{
   private _supabaseClient: SupabaseClient;
 
   constructor(_supabaseUrl: string, _supabaseKey: string) {
     this._supabaseClient = createClient<Database>(_supabaseUrl, _supabaseKey);
   }
 
-  async create(username: string, password: string): Promise<{ user: User; session: Session }> {
+  async create(
+    username: string,
+    password: string
+  ): Promise<{ user: User; session: Session }> {
     const { data, error } = await this._supabaseClient.auth.signUp({
       email: username,
       password: password,
@@ -51,14 +56,19 @@ export class SupabaseAuthenticationRepository implements AuthenticationRepositor
     };
   }
 
-  async login(username: string, password: string): Promise<{ user: User; session: Session }> {
+  async login(
+    username: string,
+    password: string
+  ): Promise<{ user: User; session: Session }> {
     const { data, error } = await this._supabaseClient.auth.signInWithPassword({
       email: username,
       password: password,
     });
 
     if (error || !data.user) {
-      throw new InvalidCredentialsError(`Failed to login user: ${error?.message}`);
+      throw new InvalidCredentialsError(
+        `Failed to login user: ${error?.message}`
+      );
     }
 
     return {
@@ -76,8 +86,10 @@ export class SupabaseAuthenticationRepository implements AuthenticationRepositor
 
   async verify(token: string): Promise<User> {
     const { data, error } = await this._supabaseClient.auth.getUser(token);
-    if (error) throw new InternalError(`Failed to verify token: ${error.message}`);
-    if (!data.user) throw new InvalidCredentialsError(`Invalid token: no user found`);
+    if (error)
+      throw new InternalError(`Failed to verify token: ${error.message}`);
+    if (!data.user)
+      throw new InvalidCredentialsError(`Invalid token: no user found`);
     return User.fromSupabaseUser(data.user);
   }
 
@@ -86,8 +98,10 @@ export class SupabaseAuthenticationRepository implements AuthenticationRepositor
       refresh_token: token,
     });
 
-    if (error) throw new TokenRefreshError(`Failed to refresh token: ${error.message}`);
-    if (!data.user || !data.session) throw new TokenRefreshError("Refresh failed");
+    if (error)
+      throw new TokenRefreshError(`Failed to refresh token: ${error.message}`);
+    if (!data.user || !data.session)
+      throw new TokenRefreshError("Refresh failed");
 
     return {
       user: User.fromSupabaseUser(data.user),
