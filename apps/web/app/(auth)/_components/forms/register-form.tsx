@@ -57,7 +57,7 @@ export function RegisterForm() {
       password: data.password,
       redirect: false,
     });
-    console.log(data);
+
     if (error) {
       return;
     }
