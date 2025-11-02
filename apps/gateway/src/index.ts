@@ -20,7 +20,7 @@ app.use(
   cors({
     origin: isDevelopment
       ? ["http://localhost:3000", "https://portfoliokit-six.vercel.app"]
-      : ["https://zenlanes.com"],
+      : ["https://zenlanes.com", "https://portfoliokit-six.vercel.app"],
     credentials: true,
   })
 );
