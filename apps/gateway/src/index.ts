@@ -19,7 +19,7 @@ Application.initialize(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 app.use(
   cors({
     origin: isDevelopment
-      ? ["http://localhost:3000"]
+      ? ["http://localhost:3000", "https://portfoliokit-six.vercel.app"]
       : ["https://zenlanes.com"],
     credentials: true,
   })
