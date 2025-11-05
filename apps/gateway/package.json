@@ -23,8 +23,6 @@
     "@supabase/supabase-js": "^2.78.0",
     "hono": "^4.10.3",
     "nanoid": "^5.1.6",
-    "zod": "^4.1.12",
-    "@repo/db": "workspace:*",
-    "@repo/supabase": "workspace:*"
+    "zod": "^4.1.12"
   }
 }
