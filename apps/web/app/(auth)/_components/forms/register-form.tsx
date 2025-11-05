@@ -93,45 +93,56 @@ export function RegisterForm() {
         </div>
       )}
 
-      <InputGroup>
-        <InputGroupInput
-          id="email"
-          type="email"
-          placeholder="john@acme.com"
-          autoFocus
-          {...register("email")}
-        />
-        <InputGroupAddon>
-          <Label htmlFor="email-1" className="text-foreground">
-            Email
-          </Label>
-          <Popover openOnHover>
-            <PopoverTrigger
-              className="ml-auto"
-              render={
-                <Button variant="ghost" size="icon-xs" className="-m-1" />
-              }
-            >
-              <HugeiconsIcon
-                icon={InformationSquareIcon}
-                size={24}
-                color="currentColor"
-                strokeWidth={1.5}
-              />
-            </PopoverTrigger>
-            <PopoverPopup tooltipStyle side="top">
-              <p>We&apos;ll use this to send you notifications</p>
-            </PopoverPopup>
-          </Popover>
-        </InputGroupAddon>
-      </InputGroup>
+      <Field>
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="email" className="text-foreground">
+              Email
+            </Label>
+            <Popover openOnHover>
+              <PopoverTrigger
+                className="ml-auto"
+                render={
+                  <Button variant="ghost" size="icon-xs" className="-m-1" />
+                }
+              >
+                <HugeiconsIcon
+                  icon={InformationSquareIcon}
+                  size={16}
+                  color="currentColor"
+                  strokeWidth={1.5}
+                />
+              </PopoverTrigger>
+              <PopoverPopup tooltipStyle side="top">
+                <p>We&apos;ll use this to send you notifications</p>
+              </PopoverPopup>
+            </Popover>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="email"
+            type="email"
+            placeholder="john@acme.com"
+            autoFocus
+            {...register("email")}
+          />
+        </InputGroup>
+        {errors.email && <FieldError>{errors.email.message}</FieldError>}
+      </Field>
 
       <Field>
-        <Input
-          type="password"
-          placeholder="••••••••"
-          {...register("password")}
-        />
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="password" className="text-foreground">
+              Password
+            </Label>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            {...register("password")}
+          />
+        </InputGroup>
         <FieldDescription>
           Your password must be at least 8 characters long and contain at least
           one letter and one number.

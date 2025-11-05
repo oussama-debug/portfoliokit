@@ -28,4 +28,4 @@ pnpm dev
 
 ## License
 
-MIT - Created by [@oussama-debug](https://github.com/oussama-debug) and [@baptistedesarnauts81](https://github.com/baptistedesarnauts81)
+AGPLv3 License with Commons Clause - Created by [@oussama-debug](https://github.com/oussama-debug) and [@baptistedesarnauts81](https://github.com/baptistedesarnauts81)

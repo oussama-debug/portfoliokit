@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import { Autocomplete as AutocompletePrimitive } from "@base-ui-components/react/autocomplete"
-import { ChevronsUpDownIcon, XIcon } from "lucide-react"
+import { Autocomplete as AutocompletePrimitive } from "@base-ui-components/react/autocomplete";
+import { Input } from "@repo/ui/components/input";
+import { ScrollArea } from "@repo/ui/components/scroll-area";
+import { cn } from "@repo/ui/lib/utils";
+import { ChevronsUpDownIcon, XIcon } from "lucide-react";
 
-import { cn } from "@repo/ui/lib/utils"
-import { Input } from "@repo/ui/components/input"
-import { ScrollArea } from "@repo/ui/components/scroll-area"
-
-const Autocomplete = AutocompletePrimitive.Root
+const Autocomplete = AutocompletePrimitive.Root;
 
 function AutocompleteInput({
   className,
@@ -16,11 +15,11 @@ function AutocompleteInput({
   size,
   ...props
 }: Omit<AutocompletePrimitive.Input.Props, "size"> & {
-  showTrigger?: boolean
-  showClear?: boolean
-  size?: "sm" | "default" | "lg" | number
+  showTrigger?: boolean;
+  showClear?: boolean;
+  size?: "sm" | "default" | "lg" | number;
 }) {
-  const sizeValue = (size ?? "default") as "sm" | "default" | "lg" | number
+  const sizeValue = (size ?? "default") as "sm" | "default" | "lg" | number;
 
   return (
     <div className="relative w-full">
@@ -56,7 +55,7 @@ function AutocompleteInput({
         </AutocompleteClear>
       )}
     </div>
-  )
+  );
 }
 
 function AutocompletePopup({
@@ -65,7 +64,7 @@ function AutocompletePopup({
   sideOffset = 4,
   ...props
 }: AutocompletePrimitive.Popup.Props & {
-  sideOffset?: number
+  sideOffset?: number;
 }) {
   return (
     <AutocompletePrimitive.Portal>
@@ -88,14 +87,10 @@ function AutocompletePopup({
         </span>
       </AutocompletePrimitive.Positioner>
     </AutocompletePrimitive.Portal>
-  )
+  );
 }
 
-function AutocompleteItem({
-  className,
-  children,
-  ...props
-}: AutocompletePrimitive.Item.Props) {
+function AutocompleteItem({ className, children, ...props }: AutocompletePrimitive.Item.Props) {
   return (
     <AutocompletePrimitive.Item
       data-slot="autocomplete-item"
@@ -107,90 +102,56 @@ function AutocompleteItem({
     >
       {children}
     </AutocompletePrimitive.Item>
-  )
+  );
 }
 
-function AutocompleteSeparator({
-  className,
-  ...props
-}: AutocompletePrimitive.Separator.Props) {
+function AutocompleteSeparator({ className, ...props }: AutocompletePrimitive.Separator.Props) {
   return (
     <AutocompletePrimitive.Separator
       className={cn("mx-2 my-1 h-px bg-border last:hidden", className)}
       data-slot="autocomplete-separator"
       {...props}
     />
-  )
+  );
 }
 
-function AutocompleteGroup({
-  className,
-  ...props
-}: AutocompletePrimitive.Group.Props) {
+function AutocompleteGroup({ className, ...props }: AutocompletePrimitive.Group.Props) {
   return (
-    <AutocompletePrimitive.Group
-      data-slot="autocomplete-group"
-      className={className}
-      {...props}
-    />
-  )
+    <AutocompletePrimitive.Group data-slot="autocomplete-group" className={className} {...props} />
+  );
 }
 
-function AutocompleteGroupLabel({
-  className,
-  ...props
-}: AutocompletePrimitive.GroupLabel.Props) {
+function AutocompleteGroupLabel({ className, ...props }: AutocompletePrimitive.GroupLabel.Props) {
   return (
     <AutocompletePrimitive.GroupLabel
-      className={cn(
-        "px-2 py-1.5 text-xs font-medium text-muted-foreground",
-        className
-      )}
+      className={cn("px-2 py-1.5 text-xs font-medium text-muted-foreground", className)}
       data-slot="autocomplete-group-label"
       {...props}
     />
-  )
+  );
 }
 
-function AutocompleteEmpty({
-  className,
-  ...props
-}: AutocompletePrimitive.Empty.Props) {
+function AutocompleteEmpty({ className, ...props }: AutocompletePrimitive.Empty.Props) {
   return (
     <AutocompletePrimitive.Empty
-      className={cn(
-        "text-center text-sm text-muted-foreground not-empty:p-2",
-        className
-      )}
+      className={cn("text-center text-sm text-muted-foreground not-empty:p-2", className)}
       data-slot="autocomplete-empty"
       {...props}
     />
-  )
+  );
 }
 
-function AutocompleteRow({
-  className,
-  ...props
-}: AutocompletePrimitive.Row.Props) {
+function AutocompleteRow({ className, ...props }: AutocompletePrimitive.Row.Props) {
   return (
-    <AutocompletePrimitive.Row
-      data-slot="autocomplete-row"
-      className={className}
-      {...props}
-    />
-  )
+    <AutocompletePrimitive.Row data-slot="autocomplete-row" className={className} {...props} />
+  );
 }
 
 function AutocompleteValue({ ...props }: AutocompletePrimitive.Value.Props) {
-  return (
-    <AutocompletePrimitive.Value data-slot="autocomplete-value" {...props} />
-  )
+  return <AutocompletePrimitive.Value data-slot="autocomplete-value" {...props} />;
 }
 
-function AutocompleteList({
-  className,
-  ...props
-}: AutocompletePrimitive.List.Props) {
+function AutocompleteList({ className, ...props }: AutocompletePrimitive.List.Props) {
   return (
     <ScrollArea className="flex-1">
       <AutocompletePrimitive.List
@@ -202,13 +163,10 @@ function AutocompleteList({
         {...props}
       />
     </ScrollArea>
-  )
+  );
 }
 
-function AutocompleteClear({
-  className,
-  ...props
-}: AutocompletePrimitive.Clear.Props) {
+function AutocompleteClear({ className, ...props }: AutocompletePrimitive.Clear.Props) {
   return (
     <AutocompletePrimitive.Clear
       data-slot="autocomplete-clear"
@@ -220,13 +178,10 @@ function AutocompleteClear({
     >
       <XIcon />
     </AutocompletePrimitive.Clear>
-  )
+  );
 }
 
-function AutocompleteStatus({
-  className,
-  ...props
-}: AutocompletePrimitive.Status.Props) {
+function AutocompleteStatus({ className, ...props }: AutocompletePrimitive.Status.Props) {
   return (
     <AutocompletePrimitive.Status
       data-slot="autocomplete-status"
@@ -236,31 +191,21 @@ function AutocompleteStatus({
       )}
       {...props}
     />
-  )
+  );
 }
 
-function AutocompleteCollection({
-  ...props
-}: AutocompletePrimitive.Collection.Props) {
-  return (
-    <AutocompletePrimitive.Collection
-      data-slot="autocomplete-collection"
-      {...props}
-    />
-  )
+function AutocompleteCollection({ ...props }: AutocompletePrimitive.Collection.Props) {
+  return <AutocompletePrimitive.Collection data-slot="autocomplete-collection" {...props} />;
 }
 
-function AutocompleteTrigger({
-  className,
-  ...props
-}: AutocompletePrimitive.Trigger.Props) {
+function AutocompleteTrigger({ className, ...props }: AutocompletePrimitive.Trigger.Props) {
   return (
     <AutocompletePrimitive.Trigger
       data-slot="autocomplete-trigger"
       className={className}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -279,4 +224,4 @@ export {
   AutocompleteStatus,
   AutocompleteRow,
   AutocompleteCollection,
-}
+};

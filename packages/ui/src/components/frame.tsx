@@ -1,18 +1,14 @@
-import * as React from "react"
-
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
+import type * as React from "react";
 
 function Frame({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="frame"
-      className={cn(
-        "relative flex flex-col rounded-2xl bg-muted p-1",
-        className
-      )}
+      className={cn("relative flex flex-col rounded-2xl bg-muted p-1", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
@@ -25,7 +21,7 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  )
+  );
 }
 
 function FrameHeader({ className, ...props }: React.ComponentProps<"header">) {
@@ -35,7 +31,7 @@ function FrameHeader({ className, ...props }: React.ComponentProps<"header">) {
       className={cn("flex flex-col px-5 py-4", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FrameTitle({ className, ...props }: React.ComponentProps<"div">) {
@@ -45,20 +41,17 @@ function FrameTitle({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("text-sm font-semibold", className)}
       {...props}
     />
-  )
+  );
 }
 
-function FrameDescription({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function FrameDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="frame-panel-description"
       className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FrameFooter({ className, ...props }: React.ComponentProps<"footer">) {
@@ -68,14 +61,7 @@ function FrameFooter({ className, ...props }: React.ComponentProps<"footer">) {
       className={cn("flex flex-col gap-1 px-5 py-4", className)}
       {...props}
     />
-  )
+  );
 }
 
-export {
-  Frame,
-  FramePanel,
-  FrameHeader,
-  FrameTitle,
-  FrameDescription,
-  FrameFooter,
-}
+export { Frame, FramePanel, FrameHeader, FrameTitle, FrameDescription, FrameFooter };

@@ -1,19 +1,17 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Toast } from "@base-ui-components/react/toast"
+import { Toast } from "@base-ui-components/react/toast";
+import { buttonVariants } from "@repo/ui/components/button";
+import { cn } from "@repo/ui/lib/utils";
 import {
   CircleAlertIcon,
   CircleCheckIcon,
   InfoIcon,
   LoaderCircleIcon,
   TriangleAlertIcon,
-} from "lucide-react"
+} from "lucide-react";
 
-import { cn } from "@repo/ui/lib/utils"
-import { buttonVariants } from "@repo/ui/components/button"
-
-const toastManager = Toast.createToastManager()
+const toastManager = Toast.createToastManager();
 
 const TOAST_ICONS = {
   loading: LoaderCircleIcon,
@@ -21,7 +19,7 @@ const TOAST_ICONS = {
   error: CircleAlertIcon,
   info: InfoIcon,
   warning: TriangleAlertIcon,
-} as const
+} as const;
 
 type ToastPosition =
   | "top-left"
@@ -29,28 +27,24 @@ type ToastPosition =
   | "top-right"
   | "bottom-left"
   | "bottom-center"
-  | "bottom-right"
+  | "bottom-right";
 
 interface ToastProviderProps extends Toast.Provider.Props {
-  position?: ToastPosition
+  position?: ToastPosition;
 }
 
-function ToastProvider({
-  children,
-  position = "bottom-right",
-  ...props
-}: ToastProviderProps) {
+function ToastProvider({ children, position = "bottom-right", ...props }: ToastProviderProps) {
   return (
     <Toast.Provider toastManager={toastManager} {...props}>
       {children}
       <ToastList position={position} />
     </Toast.Provider>
-  )
+  );
 }
 
 function ToastList({ position = "bottom-right" }: { position: ToastPosition }) {
-  const { toasts } = Toast.useToastManager()
-  const isTop = position.startsWith("top")
+  const { toasts } = Toast.useToastManager();
+  const isTop = position.startsWith("top");
 
   return (
     <Toast.Portal data-slot="toast-portal">
@@ -69,9 +63,7 @@ function ToastList({ position = "bottom-right" }: { position: ToastPosition }) {
         data-position={position}
       >
         {toasts.map((toast) => {
-          const Icon = toast.type
-            ? TOAST_ICONS[toast.type as keyof typeof TOAST_ICONS]
-            : null
+          const Icon = toast.type ? TOAST_ICONS[toast.type as keyof typeof TOAST_ICONS] : null;
 
           return (
             <Toast.Root
@@ -139,10 +131,7 @@ function ToastList({ position = "bottom-right" }: { position: ToastPosition }) {
                   )}
 
                   <div className="flex flex-col gap-0.5">
-                    <Toast.Title
-                      className="font-medium"
-                      data-slot="toast-title"
-                    />
+                    <Toast.Title className="font-medium" data-slot="toast-title" />
                     <Toast.Description
                       className="text-muted-foreground"
                       data-slot="toast-description"
@@ -150,20 +139,17 @@ function ToastList({ position = "bottom-right" }: { position: ToastPosition }) {
                   </div>
                 </div>
                 {toast.actionProps && (
-                  <Toast.Action
-                    className={buttonVariants({ size: "xs" })}
-                    data-slot="toast-action"
-                  >
+                  <Toast.Action className={buttonVariants({ size: "xs" })} data-slot="toast-action">
                     {toast.actionProps.children}
                   </Toast.Action>
                 )}
               </Toast.Content>
             </Toast.Root>
-          )
+          );
         })}
       </Toast.Viewport>
     </Toast.Portal>
-  )
+  );
 }
 
-export { ToastProvider, type ToastPosition, toastManager }
+export { ToastProvider, type ToastPosition, toastManager };

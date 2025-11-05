@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Field as FieldPrimitive } from "@base-ui-components/react/field"
+import { Field as FieldPrimitive } from "@base-ui-components/react/field";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
 function Field({ className, ...props }: FieldPrimitive.Root.Props) {
   return (
@@ -11,7 +11,7 @@ function Field({ className, ...props }: FieldPrimitive.Root.Props) {
       className={cn("flex flex-col items-start gap-2", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
@@ -21,7 +21,7 @@ function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
       className={cn("inline-flex items-center gap-2 text-sm/4", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FieldControl({
@@ -29,10 +29,10 @@ function FieldControl({
   size = "default",
   ...props
 }: Omit<FieldPrimitive.Control.Props, "size"> & {
-  size?: "sm" | "default" | "lg" | number
+  size?: "sm" | "default" | "lg" | number;
 }) {
   if (props.render) {
-    return <FieldPrimitive.Control data-slot="field-control" {...props} />
+    return <FieldPrimitive.Control data-slot="field-control" {...props} />;
   }
 
   return (
@@ -47,8 +47,7 @@ function FieldControl({
         data-slot="field-control"
         className={cn(
           "w-full min-w-0 rounded-[inherit] px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] outline-none placeholder:text-muted-foreground/64",
-          size === "sm" &&
-            "px-[calc(--spacing(2.5)-1px)] py-[calc(--spacing(1)-1px)]",
+          size === "sm" && "px-[calc(--spacing(2.5)-1px)] py-[calc(--spacing(1)-1px)]",
           size === "lg" && "py-[calc(--spacing(2)-1px)]",
           props.type === "search" &&
             "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none",
@@ -58,20 +57,17 @@ function FieldControl({
         {...props}
       />
     </span>
-  )
+  );
 }
 
-function FieldDescription({
-  className,
-  ...props
-}: FieldPrimitive.Description.Props) {
+function FieldDescription({ className, ...props }: FieldPrimitive.Description.Props) {
   return (
     <FieldPrimitive.Description
       data-slot="field-description"
       className={cn("text-xs text-muted-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FieldError({ className, ...props }: FieldPrimitive.Error.Props) {
@@ -81,16 +77,9 @@ function FieldError({ className, ...props }: FieldPrimitive.Error.Props) {
       className={cn("text-xs text-destructive-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
-const FieldValidity = FieldPrimitive.Validity
+const FieldValidity = FieldPrimitive.Validity;
 
-export {
-  Field,
-  FieldLabel,
-  FieldControl,
-  FieldDescription,
-  FieldError,
-  FieldValidity,
-}
+export { Field, FieldLabel, FieldControl, FieldDescription, FieldError, FieldValidity };

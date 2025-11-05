@@ -1,17 +1,17 @@
-import * as React from "react"
-import { mergeProps } from "@base-ui-components/react/merge-props"
-import { useRender } from "@base-ui-components/react/use-render"
+import { mergeProps } from "@base-ui-components/react/merge-props";
+import { useRender } from "@base-ui-components/react/use-render";
+import { Separator } from "@repo/ui/components/separator";
 
-import { cn } from "@repo/ui/lib/utils"
-import { Separator } from "@repo/ui/components/separator"
+import { cn } from "@repo/ui/lib/utils";
+import type * as React from "react";
 
 function Group({
   className,
   children,
   ...props
 }: {
-  className?: string
-  children: React.ReactNode
+  className?: string;
+  children: React.ReactNode;
 }) {
   return (
     <div
@@ -25,25 +25,21 @@ function Group({
     >
       {children}
     </div>
-  )
+  );
 }
 
-function GroupItem({
-  className,
-  render,
-  ...props
-}: useRender.ComponentProps<"div">) {
+function GroupItem({ className, render, ...props }: useRender.ComponentProps<"div">) {
   const defaultProps = {
     className: cn(
       "border-x-0 not-first:rounded-s-none not-last:rounded-e-none before:[clip-path:inset(-1rem_var(--clip-end)_-1rem_var(--clip-start))] not-first:before:-start-0.5 not-first:before:rounded-s-none not-first:before:[--clip-start:2px] not-last:before:-end-0.5 not-last:before:rounded-e-none not-last:before:[--clip-end:2px] first:border-s last:border-e focus-visible:z-10 has-focus-visible:z-10 not-last:has-[+[data-slot=separator]]:before:[--clip-end:1.5px] [[data-slot=separator]+&]:before:[--clip-start:1.5px]",
       className
     ),
-  }
+  };
   return useRender({
     defaultTagName: "div",
     render,
     props: mergeProps(defaultProps, props),
-  })
+  });
 }
 
 function GroupSeparator({ className, ...props }: { className?: string }) {
@@ -56,7 +52,7 @@ function GroupSeparator({ className, ...props }: { className?: string }) {
       )}
       {...props}
     />
-  )
+  );
 }
 
-export { Group, GroupItem, GroupSeparator }
+export { Group, GroupItem, GroupSeparator };

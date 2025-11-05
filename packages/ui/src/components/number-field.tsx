@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { NumberField as NumberFieldPrimitive } from "@base-ui-components/react/number-field"
-import { MinusIcon, PlusIcon } from "lucide-react"
-
-import { cn } from "@repo/ui/lib/utils"
-import { Label } from "@repo/ui/components/label"
+import { NumberField as NumberFieldPrimitive } from "@base-ui-components/react/number-field";
+import { Label } from "@repo/ui/components/label";
+import { cn } from "@repo/ui/lib/utils";
+import { MinusIcon, PlusIcon } from "lucide-react";
+import * as React from "react";
 
 const NumberFieldContext = React.createContext<{
-  fieldId: string
-} | null>(null)
+  fieldId: string;
+} | null>(null);
 
 function NumberField({
   id,
@@ -17,10 +16,10 @@ function NumberField({
   size = "default",
   ...props
 }: NumberFieldPrimitive.Root.Props & {
-  size?: "sm" | "default" | "lg"
+  size?: "sm" | "default" | "lg";
 }) {
-  const generatedId = React.useId()
-  const fieldId = id ?? generatedId
+  const generatedId = React.useId();
+  const fieldId = id ?? generatedId;
 
   return (
     <NumberFieldContext.Provider value={{ fieldId }}>
@@ -32,13 +31,10 @@ function NumberField({
         {...props}
       />
     </NumberFieldContext.Provider>
-  )
+  );
 }
 
-function NumberFieldGroup({
-  className,
-  ...props
-}: NumberFieldPrimitive.Group.Props) {
+function NumberFieldGroup({ className, ...props }: NumberFieldPrimitive.Group.Props) {
   return (
     <NumberFieldPrimitive.Group
       className={cn(
@@ -48,13 +44,10 @@ function NumberFieldGroup({
       data-slot="number-field-group"
       {...props}
     />
-  )
+  );
 }
 
-function NumberFieldDecrement({
-  className,
-  ...props
-}: NumberFieldPrimitive.Decrement.Props) {
+function NumberFieldDecrement({ className, ...props }: NumberFieldPrimitive.Decrement.Props) {
   return (
     <NumberFieldPrimitive.Decrement
       className={cn(
@@ -66,13 +59,10 @@ function NumberFieldDecrement({
     >
       <MinusIcon />
     </NumberFieldPrimitive.Decrement>
-  )
+  );
 }
 
-function NumberFieldIncrement({
-  className,
-  ...props
-}: NumberFieldPrimitive.Increment.Props) {
+function NumberFieldIncrement({ className, ...props }: NumberFieldPrimitive.Increment.Props) {
   return (
     <NumberFieldPrimitive.Increment
       className={cn(
@@ -84,13 +74,10 @@ function NumberFieldIncrement({
     >
       <PlusIcon />
     </NumberFieldPrimitive.Increment>
-  )
+  );
 }
 
-function NumberFieldInput({
-  className,
-  ...props
-}: NumberFieldPrimitive.Input.Props) {
+function NumberFieldInput({ className, ...props }: NumberFieldPrimitive.Input.Props) {
   return (
     <NumberFieldPrimitive.Input
       className={cn(
@@ -100,7 +87,7 @@ function NumberFieldInput({
       data-slot="number-field-input"
       {...props}
     />
-  )
+  );
 }
 
 function NumberFieldScrubArea({
@@ -108,14 +95,14 @@ function NumberFieldScrubArea({
   label,
   ...props
 }: NumberFieldPrimitive.ScrubArea.Props & {
-  label: string
+  label: string;
 }) {
-  const context = React.useContext(NumberFieldContext)
+  const context = React.useContext(NumberFieldContext);
 
   if (!context) {
     throw new Error(
       "NumberFieldScrubArea must be used within a NumberField component for accessibility."
-    )
+    );
   }
 
   return (
@@ -131,7 +118,7 @@ function NumberFieldScrubArea({
         <CursorGrowIcon />
       </NumberFieldPrimitive.ScrubAreaCursor>
     </NumberFieldPrimitive.ScrubArea>
-  )
+  );
 }
 
 function CursorGrowIcon(props: React.ComponentProps<"svg">) {
@@ -147,7 +134,7 @@ function CursorGrowIcon(props: React.ComponentProps<"svg">) {
     >
       <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
     </svg>
-  )
+  );
 }
 
 export {
@@ -157,4 +144,4 @@ export {
   NumberFieldIncrement,
   NumberFieldGroup,
   NumberFieldInput,
-}
+};

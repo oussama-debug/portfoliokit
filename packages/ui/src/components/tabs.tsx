@@ -1,22 +1,19 @@
-"use client"
+"use client";
 
-import { Tabs as TabsPrimitive } from "@base-ui-components/react/tabs"
+import { Tabs as TabsPrimitive } from "@base-ui-components/react/tabs";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
-type TabsVariant = "default" | "underline"
+type TabsVariant = "default" | "underline";
 
 function Tabs({ className, ...props }: TabsPrimitive.Root.Props) {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
-      className={cn(
-        "flex flex-col gap-2 data-[orientation=vertical]:flex-row",
-        className
-      )}
+      className={cn("flex flex-col gap-2 data-[orientation=vertical]:flex-row", className)}
       {...props}
     />
-  )
+  );
 }
 
 function TabsList({
@@ -25,7 +22,7 @@ function TabsList({
   children,
   ...props
 }: TabsPrimitive.List.Props & {
-  variant?: TabsVariant
+  variant?: TabsVariant;
 }) {
   return (
     <TabsPrimitive.List
@@ -51,7 +48,7 @@ function TabsList({
         )}
       />
     </TabsPrimitive.List>
-  )
+  );
 }
 
 function TabsTab({ className, ...props }: TabsPrimitive.Tab.Props) {
@@ -67,7 +64,7 @@ function TabsTab({ className, ...props }: TabsPrimitive.Tab.Props) {
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsPanel({ className, ...props }: TabsPrimitive.Panel.Props) {
@@ -77,14 +74,7 @@ function TabsPanel({ className, ...props }: TabsPrimitive.Panel.Props) {
       className={cn("flex-1 outline-none", className)}
       {...props}
     />
-  )
+  );
 }
 
-export {
-  Tabs,
-  TabsList,
-  TabsTab,
-  TabsTab as TabsTrigger,
-  TabsPanel,
-  TabsPanel as TabsContent,
-}
+export { Tabs, TabsList, TabsTab, TabsTab as TabsTrigger, TabsPanel, TabsPanel as TabsContent };
