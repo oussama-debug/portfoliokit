@@ -4,11 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import { Field, FieldError } from "@repo/ui/components/field";
 import { Label } from "@repo/ui/components/label";
-import {
-  InputGroup,
-  InputGroupInput,
-  InputGroupAddon,
-} from "@repo/ui/components/input-group";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
 import { Separator } from "@repo/ui/components/separator";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -54,15 +50,8 @@ export function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4 gap-y-2"
-    >
-      {error && (
-        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
+      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
 
       <Field>
         <InputGroup>

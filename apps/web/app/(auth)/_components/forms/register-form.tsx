@@ -5,16 +5,8 @@ import { Button } from "@repo/ui/components/button";
 import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
 import { Label } from "@repo/ui/components/label";
-import {
-  InputGroup,
-  InputGroupInput,
-  InputGroupAddon,
-} from "@repo/ui/components/input-group";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverPopup,
-} from "@repo/ui/components/popover";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
+import { Popover, PopoverTrigger, PopoverPopup } from "@repo/ui/components/popover";
 import { Separator } from "@repo/ui/components/separator";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -30,10 +22,7 @@ const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .max(128, "Password must not exceed 128 characters")
-    .regex(
-      /(?=.*[a-zA-Z])(?=.*\d)/,
-      "Password must contain at least one letter and one number"
-    ),
+    .regex(/(?=.*[a-zA-Z])(?=.*\d)/, "Password must contain at least one letter and one number"),
 });
 
 type RegisterType = z.infer<typeof registerSchema>;
@@ -51,17 +40,14 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterType) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: data.email,
-          password: data.password,
-        }),
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: data.email,
+        password: data.password,
+      }),
+    });
 
     if (!response.ok) return;
 
@@ -83,15 +69,8 @@ export function RegisterForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4 gap-y-2"
-    >
-      {error && (
-        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
+      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
 
       <Field>
         <InputGroup>
@@ -102,9 +81,7 @@ export function RegisterForm() {
             <Popover openOnHover>
               <PopoverTrigger
                 className="ml-auto"
-                render={
-                  <Button variant="ghost" size="icon-xs" className="-m-1" />
-                }
+                render={<Button variant="ghost" size="icon-xs" className="-m-1" />}
               >
                 <HugeiconsIcon
                   icon={InformationSquareIcon}
@@ -144,8 +121,8 @@ export function RegisterForm() {
           />
         </InputGroup>
         <FieldDescription>
-          Your password must be at least 8 characters long and contain at least
-          one letter and one number.
+          Your password must be at least 8 characters long and contain at least one letter and one
+          number.
         </FieldDescription>
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </Field>

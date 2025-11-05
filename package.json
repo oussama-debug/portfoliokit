@@ -1,7 +1,10 @@
 {
   "name": "my-portfolio",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "env-cmd -f ./packages/env/.env turbo run dev",
