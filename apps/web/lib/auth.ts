@@ -94,7 +94,7 @@ export const authConfig: NextAuthConfig = {
         token.refresh_token = user.refresh_token;
       }
 
-      if (trigger === "update" && token.refresh_token) {
+      if (trigger === "update" && token.refresh_token && typeof token.refresh_token === "string") {
         const refreshed = await refreshToken(token.refresh_token);
         if (refreshed?.success) {
           token.access_token = refreshed.session.access_token;
@@ -106,11 +106,11 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
-        session.user.username = token.username;
-        session.user.email_confirmed = token.email_confirmed;
-        session.access_token = token.access_token;
-        session.refresh_token = token.refresh_token;
+        session.user.id = token.id as string;
+        session.user.username = token.username as string;
+        session.user.email_confirmed = token.email_confirmed as boolean;
+        session.access_token = token.access_token as string;
+        session.refresh_token = token.refresh_token as string;
       }
       return session;
     },
