@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@repo/ui/lib/utils";
 import { useEffect, useState } from "react";
 import { dayjs, getHours, getWeekDays } from "../../../lib/calendar";
 import { useCalendarStore } from "../../../lib/stores/calendar";
-import { cn } from "@repo/ui/lib/utils";
 
 export function WeekRender() {
   const { selectedDate } = useCalendarStore();

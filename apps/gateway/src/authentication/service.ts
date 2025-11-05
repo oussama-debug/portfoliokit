@@ -1,20 +1,14 @@
-import { Session, type User } from "./model.js";
-import { AuthenticationRepository } from "./repository.js";
+import type { Session, User } from "./model";
+import type { AuthenticationRepository } from "./repository";
 
 export class AuthenticationService {
   constructor(private readonly _authRepository: AuthenticationRepository) {}
 
-  async register(
-    username: string,
-    password: string
-  ): Promise<{ user: User; session: Session }> {
+  async register(username: string, password: string): Promise<{ user: User; session: Session }> {
     return await this._authRepository.create(username, password);
   }
 
-  async login(
-    username: string,
-    password: string
-  ): Promise<{ user: User; session: Session }> {
+  async login(username: string, password: string): Promise<{ user: User; session: Session }> {
     return await this._authRepository.login(username, password);
   }
 

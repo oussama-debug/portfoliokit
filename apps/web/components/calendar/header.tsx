@@ -6,8 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCalendarStore } from "../../lib/stores/calendar";
 
 export function CalendarHeader() {
-  const { selectedDate, view, reset, nextWeek, previousWeek } =
-    useCalendarStore();
+  const { selectedDate, view, reset, nextWeek, previousWeek } = useCalendarStore();
 
   return (
     <div className="w-full lg:px-4 border-r bg-primary-foreground space-x-2 py-2 flex flex-row justify-between items-center">

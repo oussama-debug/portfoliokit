@@ -1,11 +1,11 @@
 "use client";
 
-import { WeekDays } from "./week-days";
-import { useCalendarStore } from "../../../lib/stores/calendar";
 import { ScrollArea } from "@repo/ui/components/scroll-area";
+import { cn } from "@repo/ui/lib/utils";
+import { useCalendarStore } from "../../../lib/stores/calendar";
+import { WeekDays } from "./week-days";
 import { WeekHours } from "./week-hours";
 import { WeekRender } from "./week-render";
-import { cn } from "@repo/ui/lib/utils";
 
 export function WeekView() {
   const { selectedDate } = useCalendarStore();

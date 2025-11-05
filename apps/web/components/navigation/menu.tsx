@@ -1,12 +1,8 @@
 "use client";
 
-import { NavigationLink } from "./link";
+import { Calendar04Icon, Home04Icon, Settings02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Calendar04Icon,
-  Home04Icon,
-  Settings02Icon,
-} from "@hugeicons/core-free-icons";
+import { NavigationLink } from "./link";
 
 const links = [
   {
@@ -29,19 +25,12 @@ export function NavigationMenu() {
               {section.title}
             </li>
             {section.links.map((link) => (
-              <li
-                key={link.href}
-                className="w-full flex justify-start items-center"
-              >
+              <li key={link.href} className="w-full flex justify-start items-center">
                 <NavigationLink
                   href={link.href}
                   className="w-full justify-start flex flex-row items-center"
                 >
-                  <HugeiconsIcon
-                    strokeWidth={2}
-                    icon={link.icon}
-                    className="h-4 w-4"
-                  />
+                  <HugeiconsIcon strokeWidth={2} icon={link.icon} className="h-4 w-4" />
                   <span>{link.title}</span>
                 </NavigationLink>
               </li>

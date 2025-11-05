@@ -1,9 +1,9 @@
 "use client";
 
+import { Button } from "@repo/ui/components/button";
 import Link from "next/link";
 import { Logo } from "../../components/icons/logo";
 import { SparkleIcon } from "../../components/icons/sparkle";
-import { Button } from "@repo/ui/components/button";
 
 export function Header() {
   return (

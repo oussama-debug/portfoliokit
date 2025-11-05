@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@repo/ui/lib/utils";
-import { type Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
 import { getWeekDays } from "../../../lib/calendar";
 
 export function WeekDays({ selectedDate }: { selectedDate: Dayjs }) {
@@ -11,16 +11,9 @@ export function WeekDays({ selectedDate }: { selectedDate: Dayjs }) {
         <div className="w-16 border-r border-gray-faint"></div>
       </div>
       {getWeekDays(selectedDate).map(({ currentDate, today }, index) => (
-        <div
-          key={index}
-          className="flex text-sm font-normal space-x-1 flex-row items-center"
-        >
-          <div className={cn(today && "text-primary font-medium")}>
-            {currentDate.format("ddd")}
-          </div>
-          <div
-            className={cn("rounded-full", today && "text-primary font-medium")}
-          >
+        <div key={index} className="flex text-sm font-normal space-x-1 flex-row items-center">
+          <div className={cn(today && "text-primary font-medium")}>{currentDate.format("ddd")}</div>
+          <div className={cn("rounded-full", today && "text-primary font-medium")}>
             {currentDate.format("DD")}
           </div>
         </div>

@@ -1,18 +1,31 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
-import { Separator } from "@repo/ui/components/separator";
 import { Input } from "@repo/ui/components/input";
+import { Label } from "@repo/ui/components/label";
+import {
+  InputGroup,
+  InputGroupInput,
+  InputGroupAddon,
+} from "@repo/ui/components/input-group";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverPopup,
+} from "@repo/ui/components/popover";
+import { Separator } from "@repo/ui/components/separator";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { InformationSquareIcon } from "@hugeicons/core-free-icons";
 
 const registerSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -27,7 +40,7 @@ type RegisterType = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, _setError] = useState<string | null>(null);
 
   const {
     register,
@@ -80,18 +93,38 @@ export function RegisterForm() {
         </div>
       )}
 
-      <Field>
-        <Input
+      <InputGroup>
+        <InputGroupInput
+          id="email"
           type="email"
           placeholder="john@acme.com"
           autoFocus
           {...register("email")}
         />
-        <FieldDescription>
-          Your email will not be shared with anyone else
-        </FieldDescription>
-        {errors.email && <FieldError>{errors.email.message}</FieldError>}
-      </Field>
+        <InputGroupAddon>
+          <Label htmlFor="email-1" className="text-foreground">
+            Email
+          </Label>
+          <Popover openOnHover>
+            <PopoverTrigger
+              className="ml-auto"
+              render={
+                <Button variant="ghost" size="icon-xs" className="-m-1" />
+              }
+            >
+              <HugeiconsIcon
+                icon={InformationSquareIcon}
+                size={24}
+                color="currentColor"
+                strokeWidth={1.5}
+              />
+            </PopoverTrigger>
+            <PopoverPopup tooltipStyle side="top">
+              <p>We&apos;ll use this to send you notifications</p>
+            </PopoverPopup>
+          </Popover>
+        </InputGroupAddon>
+      </InputGroup>
 
       <Field>
         <Input

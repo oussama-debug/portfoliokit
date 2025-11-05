@@ -1,27 +1,27 @@
-import { InternalError } from "./error.js";
-import { SupabaseAuthenticationRepository } from "./authentication/repositories/supabase.repository.js";
-import { AuthenticationService } from "./authentication/service.js";
+import { SupabaseAuthenticationRepository } from "./authentication/repositories/supabase.repository";
+import { AuthenticationService } from "./authentication/service";
+import { InternalError } from "./error";
 
 export class Application {
   private static _authenticationService: AuthenticationService;
   private static _supabaseAuthenticationService: SupabaseAuthenticationRepository;
 
   static initialize(supabaseUrl: string, supabaseKey: string) {
-    this._supabaseAuthenticationService = new SupabaseAuthenticationRepository(
+    Application._supabaseAuthenticationService = new SupabaseAuthenticationRepository(
       supabaseUrl,
       supabaseKey
     );
-    this._authenticationService = new AuthenticationService(
-      this._supabaseAuthenticationService
+    Application._authenticationService = new AuthenticationService(
+      Application._supabaseAuthenticationService
     );
   }
 
   static get authenticationService(): AuthenticationService {
-    if (!this._authenticationService) {
+    if (!Application._authenticationService) {
       throw new InternalError(
         "AuthenticationService not initialized. Call Application.initialize() first."
       );
     }
-    return this._authenticationService;
+    return Application._authenticationService;
   }
 }

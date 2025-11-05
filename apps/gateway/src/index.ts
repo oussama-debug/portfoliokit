@@ -1,14 +1,13 @@
-import { Hono } from "hono";
 import { serve } from "@hono/node-server";
+import { env } from "@repo/env";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
-import { logger } from "hono/logger";
-import { cors } from "hono/cors";
-
-import { routes as auth_routes } from "./authentication/route.js";
-import { Application } from "./application.js";
-import { env } from "@repo/env";
-import { handleErrors } from "./error.js";
+import { Application } from "./application";
+import { routes as auth_routes } from "./authentication/route";
+import { handleErrors } from "./error";
 
 const isDevelopment = env.NODE_ENV === "development";
 const port = 4000;
