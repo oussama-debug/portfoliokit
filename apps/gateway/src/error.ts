@@ -104,7 +104,7 @@ export async function handleErrors(
     for (const issue of _error.issues) {
       const path = issue.path.join(".");
       if (!errors[path]) errors[path] = [];
-      errors[path].push(issue.message);
+      errors[path]?.push(issue.message);
     }
 
     const response: ErrorResponse = {

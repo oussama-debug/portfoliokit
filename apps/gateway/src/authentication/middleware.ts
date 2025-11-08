@@ -1,21 +1,24 @@
 import type { Context, Next } from "hono";
-import { Application } from "@/application";
-import { UnauthorizedError } from "../error";
+import { Container } from "@/core/index.js";
+import { UnauthorizedError } from "@/error.js";
+import type { AuthenticationService } from "./service.js";
 
-export async function isAuthenticated(_context: Context, _next: Next) {
-  const _header = _context.req.header("authorization");
+export async function isAuthenticated(context: Context, next: Next): Promise<void> {
+  const header = context.req.header("authorization");
 
-  if (!_header || !_header.startsWith("Bearer ")) {
+  if (!header || !header.startsWith("Bearer ")) {
     throw new UnauthorizedError("Authorization header missing or invalid");
   }
 
-  const token = _header.split(" ")[1];
+  const token = header.split(" ")[1];
 
-  if (!token) throw new UnauthorizedError("Token missing from Authorization header");
+  if (!token) {
+    throw new UnauthorizedError("Token missing from Authorization header");
+  }
 
-  const auth_service = Application.authenticationService;
-  const user = await auth_service.verify(token);
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
+  const user = await authService.verify(token);
 
-  _context.set("user", user.toObject());
-  await _next();
+  context.set("user", user.toObject());
+  await next();
 }
