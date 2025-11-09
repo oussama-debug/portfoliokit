@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { Container, getUser } from "@/core/index.js";
-import { isAuthenticated } from "@/authentication/middleware.js";
+import { isAuthenticated } from "@/shared/middleware/auth.middleware.js";
 import type { BookingService } from "./service.js";
 import { createBookingSchema, updateBookingSchema, bookingIdSchema } from "./validator.js";
 
@@ -9,7 +9,7 @@ export const routes = new Hono();
 
 routes.use("*", isAuthenticated);
 
-routes.post("/", zValidator("json", createBookingSchema), async (context) => {
+routes.post("/", isAuthenticated, zValidator("json", createBookingSchema), async (context) => {
   const user = getUser(context);
   const { title, startTime, endTime } = context.req.valid("json");
 
@@ -27,7 +27,7 @@ routes.post("/", zValidator("json", createBookingSchema), async (context) => {
   });
 });
 
-routes.get("/", async (context) => {
+routes.get("/", isAuthenticated, async (context) => {
   const user = getUser(context);
 
   const bookingService = Container.resolve<BookingService>("BookingService");
@@ -39,7 +39,7 @@ routes.get("/", async (context) => {
   });
 });
 
-routes.get("/:id", zValidator("param", bookingIdSchema), async (context) => {
+routes.get("/:id", isAuthenticated, zValidator("param", bookingIdSchema), async (context) => {
   const user = getUser(context);
   const { id } = context.req.valid("param");
 
@@ -54,6 +54,7 @@ routes.get("/:id", zValidator("param", bookingIdSchema), async (context) => {
 
 routes.patch(
   "/:id",
+  isAuthenticated,
   zValidator("param", bookingIdSchema),
   zValidator("json", updateBookingSchema),
   async (context) => {
@@ -76,7 +77,7 @@ routes.patch(
   }
 );
 
-routes.delete("/:id", zValidator("param", bookingIdSchema), async (context) => {
+routes.delete("/:id", isAuthenticated, zValidator("param", bookingIdSchema), async (context) => {
   const user = getUser(context);
   const { id } = context.req.valid("param");
 

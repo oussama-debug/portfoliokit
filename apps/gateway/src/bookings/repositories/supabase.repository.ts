@@ -2,12 +2,13 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { NotFoundError, InternalError } from "@/error.js";
 import type { BookingRepository } from "../repository.js";
 import { Booking } from "../model.js";
+import { Database } from "@repo/supabase";
 
 export class SupabaseBookingRepository implements BookingRepository {
   private readonly _client: SupabaseClient;
 
   constructor(supabaseUrl: string, supabaseKey: string) {
-    this._client = createClient(supabaseUrl, supabaseKey);
+    this._client = createClient<Database>(supabaseUrl, supabaseKey);
   }
 
   async create(userId: string, title: string, startTime: Date, endTime: Date): Promise<Booking> {

@@ -1,7 +1,7 @@
 import type { Context, Next } from "hono";
 import { Container } from "@/core/index.js";
 import { UnauthorizedError } from "@/error.js";
-import type { AuthenticationService } from "./service.js";
+import type { AuthenticationService } from "../../authentication/service.js";
 
 export async function isAuthenticated(context: Context, next: Next): Promise<void> {
   const header = context.req.header("authorization");

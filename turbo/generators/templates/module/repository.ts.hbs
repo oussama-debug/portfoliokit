@@ -1,9 +1,0 @@
-import type { {{entityName}} } from "./model.js";
-
-export interface {{entityName}}Repository {
-  create(name: string): Promise<{{entityName}}>;
-  findById(id: string): Promise<{{entityName}} | null>;
-  findAll(): Promise<{{entityName}}[]>;
-  update(id: string, data: { name?: string }): Promise<{{entityName}}>;
-  delete(id: string): Promise<void>;
-}
