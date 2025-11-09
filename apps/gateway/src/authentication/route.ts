@@ -1,56 +1,51 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import {
-  createSchema,
-  loginSchema,
-  logoutSchema,
-  refreshSchema,
-} from "./validator.js";
-import { Application } from "@/application.js";
-import { isAuthenticated } from "./middleware.js";
+import { Container } from "@/core";
+import type { AuthenticationService } from "./service";
+import { createSchema, loginSchema, logoutSchema, refreshSchema } from "./validator";
 
 export const routes = new Hono();
 
-routes.post("/register", zValidator("json", createSchema), async (_context) => {
-  const { username, password } = _context.req.valid("json");
-  const auth_service = Application.authenticationService;
-  const register = await auth_service.register(username, password);
+routes.post("/register", zValidator("json", createSchema), async (context) => {
+  const { username, password } = context.req.valid("json");
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
+  const result = await authService.register(username, password);
 
-  return _context.json({
+  return context.json({
     success: true,
-    user: register.user.toObject(),
-    session: register.session.toObject(),
+    user: result.user.toObject(),
+    session: result.session.toObject(),
   });
 });
 
-routes.post("/login", zValidator("json", loginSchema), async (_context) => {
-  const { username, password } = _context.req.valid("json");
-  const auth_service = Application.authenticationService;
-  const login = await auth_service.login(username, password);
+routes.post("/login", zValidator("json", loginSchema), async (context) => {
+  const { username, password } = context.req.valid("json");
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
+  const result = await authService.login(username, password);
 
-  return _context.json({
+  return context.json({
     success: true,
-    user: login.user.toObject(),
-    session: login.session.toObject(),
+    user: result.user.toObject(),
+    session: result.session.toObject(),
   });
 });
 
-routes.post("/refresh", zValidator("json", refreshSchema), async (_context) => {
-  const { token } = _context.req.valid("json");
-  const auth_service = Application.authenticationService;
-  const refresh = await auth_service.refresh(token);
+routes.post("/refresh", zValidator("json", refreshSchema), async (context) => {
+  const { token } = context.req.valid("json");
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
+  const result = await authService.refresh(token);
 
-  return _context.json({
+  return context.json({
     success: true,
-    user: refresh.user.toObject(),
-    session: refresh.session.toObject(),
+    user: result.user.toObject(),
+    session: result.session.toObject(),
   });
 });
 
-routes.post("/logout", zValidator("json", logoutSchema), async (_context) => {
-  const { token } = _context.req.valid("json");
-  const auth_service = Application.authenticationService;
-  await auth_service.signout(token);
+routes.post("/logout", zValidator("json", logoutSchema), async (context) => {
+  const { token } = context.req.valid("json");
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
+  await authService.signout(token);
 
-  return _context.json({ success: true });
+  return context.json({ success: true });
 });

@@ -1,15 +1,13 @@
-"use client"
+"use client";
 
-import { PreviewCard as PreviewCardPrimitive } from "@base-ui-components/react/preview-card"
+import { PreviewCard as PreviewCardPrimitive } from "@base-ui-components/react/preview-card";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
-const PreviewCard = PreviewCardPrimitive.Root
+const PreviewCard = PreviewCardPrimitive.Root;
 
 function PreviewCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {
-  return (
-    <PreviewCardPrimitive.Trigger data-slot="preview-card-trigger" {...props} />
-  )
+  return <PreviewCardPrimitive.Trigger data-slot="preview-card-trigger" {...props} />;
 }
 
 function PreviewCardPopup({
@@ -19,8 +17,8 @@ function PreviewCardPopup({
   sideOffset = 4,
   ...props
 }: PreviewCardPrimitive.Popup.Props & {
-  align?: PreviewCardPrimitive.Positioner.Props["align"]
-  sideOffset?: PreviewCardPrimitive.Positioner.Props["sideOffset"]
+  align?: PreviewCardPrimitive.Positioner.Props["align"];
+  sideOffset?: PreviewCardPrimitive.Positioner.Props["sideOffset"];
 }) {
   return (
     <PreviewCardPrimitive.Portal>
@@ -42,7 +40,7 @@ function PreviewCardPopup({
         </PreviewCardPrimitive.Popup>
       </PreviewCardPrimitive.Positioner>
     </PreviewCardPrimitive.Portal>
-  )
+  );
 }
 
 export {
@@ -52,4 +50,4 @@ export {
   PreviewCardTrigger as HoverCardTrigger,
   PreviewCardPopup,
   PreviewCardPopup as HoverCardContent,
-}
+};

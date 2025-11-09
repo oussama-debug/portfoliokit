@@ -1,18 +1,19 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
-import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
+import { Field, FieldError } from "@repo/ui/components/field";
+import { Label } from "@repo/ui/components/label";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
 import { Separator } from "@repo/ui/components/separator";
-import { Input } from "@repo/ui/components/input";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -20,7 +21,7 @@ type LoginType = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, _setError] = useState<string | null>(null);
 
   const {
     register,
@@ -49,34 +50,41 @@ export function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4 gap-y-2"
-    >
-      {error && (
-        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
+      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
 
       <Field>
-        <Input
-          type="email"
-          placeholder="john@acme.com"
-          autoFocus
-          {...register("email")}
-        />
-        <FieldDescription>Enter your email address</FieldDescription>
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="email" className="text-foreground">
+              Email
+            </Label>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="email"
+            type="email"
+            placeholder="john@acme.com"
+            autoFocus
+            {...register("email")}
+          />
+        </InputGroup>
         {errors.email && <FieldError>{errors.email.message}</FieldError>}
       </Field>
 
       <Field>
-        <Input
-          type="password"
-          placeholder="••••••••"
-          {...register("password")}
-        />
-        <FieldDescription>Enter your password</FieldDescription>
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="password" className="text-foreground">
+              Password
+            </Label>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            {...register("password")}
+          />
+        </InputGroup>
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </Field>
 

@@ -1,33 +1,35 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
 import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
-import { Separator } from "@repo/ui/components/separator";
 import { Input } from "@repo/ui/components/input";
+import { Label } from "@repo/ui/components/label";
+import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
+import { Popover, PopoverTrigger, PopoverPopup } from "@repo/ui/components/popover";
+import { Separator } from "@repo/ui/components/separator";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { InformationSquareIcon } from "@hugeicons/core-free-icons";
 
 const registerSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
     .max(128, "Password must not exceed 128 characters")
-    .regex(
-      /(?=.*[a-zA-Z])(?=.*\d)/,
-      "Password must contain at least one letter and one number"
-    ),
+    .regex(/(?=.*[a-zA-Z])(?=.*\d)/, "Password must contain at least one letter and one number"),
 });
 
 type RegisterType = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, _setError] = useState<string | null>(null);
 
   const {
     register,
@@ -38,17 +40,14 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterType) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: data.email,
-          password: data.password,
-        }),
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: data.email,
+        password: data.password,
+      }),
+    });
 
     if (!response.ok) return;
 
@@ -70,38 +69,60 @@ export function RegisterForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4 gap-y-2"
-    >
-      {error && (
-        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
+      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
 
       <Field>
-        <Input
-          type="email"
-          placeholder="john@acme.com"
-          autoFocus
-          {...register("email")}
-        />
-        <FieldDescription>
-          Your email will not be shared with anyone else
-        </FieldDescription>
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="email" className="text-foreground">
+              Email
+            </Label>
+            <Popover openOnHover>
+              <PopoverTrigger
+                className="ml-auto"
+                render={<Button variant="ghost" size="icon-xs" className="-m-1" />}
+              >
+                <HugeiconsIcon
+                  icon={InformationSquareIcon}
+                  size={16}
+                  color="currentColor"
+                  strokeWidth={1.5}
+                />
+              </PopoverTrigger>
+              <PopoverPopup tooltipStyle side="top">
+                <p>We&apos;ll use this to send you notifications</p>
+              </PopoverPopup>
+            </Popover>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="email"
+            type="email"
+            placeholder="john@acme.com"
+            autoFocus
+            {...register("email")}
+          />
+        </InputGroup>
         {errors.email && <FieldError>{errors.email.message}</FieldError>}
       </Field>
 
       <Field>
-        <Input
-          type="password"
-          placeholder="••••••••"
-          {...register("password")}
-        />
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <Label htmlFor="password" className="text-foreground">
+              Password
+            </Label>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            {...register("password")}
+          />
+        </InputGroup>
         <FieldDescription>
-          Your password must be at least 8 characters long and contain at least
-          one letter and one number.
+          Your password must be at least 8 characters long and contain at least one letter and one
+          number.
         </FieldDescription>
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </Field>

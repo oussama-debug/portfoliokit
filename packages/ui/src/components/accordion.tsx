@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
-import { Accordion as AccordionPrimitive } from "@base-ui-components/react/accordion"
-import { ChevronDownIcon } from "lucide-react"
-
-import { cn } from "@repo/ui/lib/utils"
+import { Accordion as AccordionPrimitive } from "@base-ui-components/react/accordion";
+import { cn } from "@repo/ui/lib/utils";
+import { ChevronDownIcon } from "lucide-react";
 
 function Accordion(props: AccordionPrimitive.Root.Props) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...props} />
+  return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
 }
 
 function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
@@ -16,14 +15,10 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
       className={cn("border-b last:border-b-0", className)}
       {...props}
     />
-  )
+  );
 }
 
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Trigger.Props) {
+function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.Trigger.Props) {
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -38,14 +33,10 @@ function AccordionTrigger({
         <ChevronDownIcon className="pointer-events-none size-4 shrink-0 translate-y-0.5 opacity-72 transition-transform duration-200 ease-in-out" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
-  )
+  );
 }
 
-function AccordionPanel({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Panel.Props) {
+function AccordionPanel({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-panel"
@@ -54,7 +45,7 @@ function AccordionPanel({
     >
       <div className={cn("pt-0 pb-4", className)}>{children}</div>
     </AccordionPrimitive.Panel>
-  )
+  );
 }
 
 export {
@@ -63,4 +54,4 @@ export {
   AccordionTrigger,
   AccordionPanel,
   AccordionPanel as AccordionContent,
-}
+};

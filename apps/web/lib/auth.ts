@@ -1,6 +1,6 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
 import { env } from "@repo/env";
+import NextAuth, { type NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 
 type GatewayAuthResponse = {
   success: boolean;
@@ -21,14 +21,11 @@ async function loginToGateway(
   password: string
 ): Promise<GatewayAuthResponse | null> {
   try {
-    const response = await fetch(
-      `${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      }
-    );
+    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
 
     if (!response.ok) return null;
     return await response.json();
@@ -38,18 +35,13 @@ async function loginToGateway(
   }
 }
 
-async function refreshToken(
-  token: string
-): Promise<GatewayAuthResponse | null> {
+async function refreshToken(token: string): Promise<GatewayAuthResponse | null> {
   try {
-    const response = await fetch(
-      `${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/refresh`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      }
-    );
+    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
 
     if (!response.ok) return null;
     return await response.json();
@@ -102,9 +94,9 @@ export const authConfig: NextAuthConfig = {
         token.refresh_token = user.refresh_token;
       }
 
-      if (trigger === "update" && token.refresh_token) {
+      if (trigger === "update" && token.refresh_token && typeof token.refresh_token === "string") {
         const refreshed = await refreshToken(token.refresh_token);
-        if (refreshed && refreshed.success) {
+        if (refreshed?.success) {
           token.access_token = refreshed.session.access_token;
           token.refresh_token = refreshed.session.refresh_token;
         }
@@ -114,11 +106,11 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
-        session.user.username = token.username;
-        session.user.email_confirmed = token.email_confirmed;
-        session.access_token = token.access_token;
-        session.refresh_token = token.refresh_token;
+        session.user.id = token.id as string;
+        session.user.username = token.username as string;
+        session.user.email_confirmed = token.email_confirmed as boolean;
+        session.access_token = token.access_token as string;
+        session.refresh_token = token.refresh_token as string;
       }
       return session;
     },

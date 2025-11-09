@@ -1,0 +1,104 @@
+import { zValidator } from "@hono/zod-validator";
+import { Hono } from "hono";
+import { Container{{#if requiresAuth}}, getUser{{/if}} } from "@/core/index.js";
+{{#if requiresAuth}}
+import { isAuthenticated } from "@/authentication/middleware.js";
+{{/if}}
+import type { {{entityName}}Service } from "./service.js";
+import {
+  create{{entityName}}Schema,
+  update{{entityName}}Schema,
+  {{moduleName}}IdSchema,
+} from "./validator.js";
+
+export const routes = new Hono();
+
+{{#if requiresAuth}}
+// All routes require authentication
+routes.use("*", isAuthenticated);
+{{/if}}
+
+// Create a new {{moduleName}}
+routes.post("/", zValidator("json", create{{entityName}}Schema), async (context) => {
+  {{#if requiresAuth}}
+  const user = getUser(context);
+  {{/if}}
+  const { name } = context.req.valid("json");
+
+  const service = Container.resolve<{{entityName}}Service>("{{entityName}}Service");
+  const entity = await service.create(name);
+
+  return context.json({
+    success: true,
+    data: entity.toObject(),
+  });
+});
+
+// Get all {{moduleName}}
+routes.get("/", async (context) => {
+  {{#if requiresAuth}}
+  const user = getUser(context);
+  {{/if}}
+
+  const service = Container.resolve<{{entityName}}Service>("{{entityName}}Service");
+  const entities = await service.getAll();
+
+  return context.json({
+    success: true,
+    data: entities.map((e) => e.toObject()),
+  });
+});
+
+// Get a specific {{moduleName}}
+routes.get("/:id", zValidator("param", {{moduleName}}IdSchema), async (context) => {
+  {{#if requiresAuth}}
+  const user = getUser(context);
+  {{/if}}
+  const { id } = context.req.valid("param");
+
+  const service = Container.resolve<{{entityName}}Service>("{{entityName}}Service");
+  const entity = await service.getById(id);
+
+  return context.json({
+    success: true,
+    data: entity.toObject(),
+  });
+});
+
+// Update a {{moduleName}}
+routes.patch(
+  "/:id",
+  zValidator("param", {{moduleName}}IdSchema),
+  zValidator("json", update{{entityName}}Schema),
+  async (context) => {
+    {{#if requiresAuth}}
+    const user = getUser(context);
+    {{/if}}
+    const { id } = context.req.valid("param");
+    const data = context.req.valid("json");
+
+    const service = Container.resolve<{{entityName}}Service>("{{entityName}}Service");
+    const entity = await service.update(id, data);
+
+    return context.json({
+      success: true,
+      data: entity.toObject(),
+    });
+  }
+);
+
+// Delete a {{moduleName}}
+routes.delete("/:id", zValidator("param", {{moduleName}}IdSchema), async (context) => {
+  {{#if requiresAuth}}
+  const user = getUser(context);
+  {{/if}}
+  const { id } = context.req.valid("param");
+
+  const service = Container.resolve<{{entityName}}Service>("{{entityName}}Service");
+  await service.delete(id);
+
+  return context.json({
+    success: true,
+    message: "{{entityName}} deleted successfully",
+  });
+});

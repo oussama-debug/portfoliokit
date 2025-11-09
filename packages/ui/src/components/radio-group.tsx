@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Radio as RadioPrimitive } from "@base-ui-components/react/radio"
-import { RadioGroup as RadioGroupPrimitive } from "@base-ui-components/react/radio-group"
+import { Radio as RadioPrimitive } from "@base-ui-components/react/radio";
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui-components/react/radio-group";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return (
@@ -12,7 +12,7 @@ function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
       className={cn("flex flex-col gap-3", className)}
       {...props}
     />
-  )
+  );
 }
 
 function Radio({ className, ...props }: RadioPrimitive.Root.Props) {
@@ -30,7 +30,7 @@ function Radio({ className, ...props }: RadioPrimitive.Root.Props) {
         className="absolute -inset-px flex size-4 items-center justify-center rounded-full before:size-1.5 before:rounded-full before:bg-primary-foreground data-checked:bg-primary data-unchecked:hidden"
       />
     </RadioPrimitive.Root>
-  )
+  );
 }
 
-export { RadioGroup, Radio, Radio as RadioGroupItem }
+export { RadioGroup, Radio, Radio as RadioGroupItem };

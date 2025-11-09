@@ -1,23 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Toggle as TogglePrimitive } from "@base-ui-components/react/toggle"
-import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui-components/react/toggle-group"
-import { type VariantProps } from "class-variance-authority"
+import type { Toggle as TogglePrimitive } from "@base-ui-components/react/toggle";
+import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui-components/react/toggle-group";
+import { Separator } from "@repo/ui/components/separator";
+import { Toggle as ToggleComponent, type toggleVariants } from "@repo/ui/components/toggle";
 
-import { cn } from "@repo/ui/lib/utils"
-import { Separator } from "@repo/ui/components/separator"
-import {
-  Toggle as ToggleComponent,
-  toggleVariants,
-} from "@repo/ui/components/toggle"
+import { cn } from "@repo/ui/lib/utils";
+import type { VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-const ToggleGroupContext = React.createContext<
-  VariantProps<typeof toggleVariants>
->({
+const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({
   size: "default",
   variant: "default",
-})
+});
 
 function ToggleGroup({
   className,
@@ -33,9 +28,7 @@ function ToggleGroup({
       data-size={size}
       className={cn(
         "flex w-fit *:pointer-coarse:after:min-w-auto",
-        variant === "default"
-          ? "gap-0.5"
-          : "[--clip-end:-1rem] [--clip-start:-1rem]",
+        variant === "default" ? "gap-0.5" : "[--clip-end:-1rem] [--clip-start:-1rem]",
         className
       )}
       {...props}
@@ -44,7 +37,7 @@ function ToggleGroup({
         {children}
       </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive>
-  )
+  );
 }
 
 function Toggle({
@@ -54,10 +47,10 @@ function Toggle({
   size,
   ...props
 }: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {
-  const context = React.useContext(ToggleGroupContext)
+  const context = React.useContext(ToggleGroupContext);
 
-  const resolvedVariant = context.variant || variant
-  const resolvedSize = context.size || size
+  const resolvedVariant = context.variant || variant;
+  const resolvedSize = context.size || size;
 
   return (
     <ToggleComponent
@@ -74,11 +67,11 @@ function Toggle({
     >
       {children}
     </ToggleComponent>
-  )
+  );
 }
 
 function ToggleGroupSeparator({ className, ...props }: { className?: string }) {
-  return <Separator orientation="vertical" className={className} {...props} />
+  return <Separator orientation="vertical" className={className} {...props} />;
 }
 
-export { ToggleGroup, Toggle, Toggle as ToggleGroupItem, ToggleGroupSeparator }
+export { ToggleGroup, Toggle, Toggle as ToggleGroupItem, ToggleGroupSeparator };

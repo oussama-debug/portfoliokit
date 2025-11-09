@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Checkbox as CheckboxPrimitive } from "@base-ui-components/react/checkbox"
+import { Checkbox as CheckboxPrimitive } from "@base-ui-components/react/checkbox";
 
-import { cn } from "@repo/ui/lib/utils"
+import { cn } from "@repo/ui/lib/utils";
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
@@ -54,7 +54,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         )}
       />
     </CheckboxPrimitive.Root>
-  )
+  );
 }
 
-export { Checkbox }
+export { Checkbox };

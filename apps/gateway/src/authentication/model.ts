@@ -1,5 +1,4 @@
-import { type User as SupabaseUser } from "@supabase/supabase-js";
-import { type Session as SupabaseSession } from "@supabase/supabase-js";
+import type { Session as SupabaseSession, User as SupabaseUser } from "@supabase/supabase-js";
 
 export class User {
   private _id: string;
@@ -7,12 +6,7 @@ export class User {
   private _createdAt: Date;
   private _email_confirmed: boolean;
 
-  constructor(
-    id: string,
-    username: string,
-    createdAt: Date,
-    email_confirmed: boolean
-  ) {
+  constructor(id: string, username: string, createdAt: Date, email_confirmed: boolean) {
     this._id = id;
     this._username = username;
     this._createdAt = createdAt;
@@ -79,9 +73,6 @@ export class Session {
   }
 
   static fromSupabaseSession(supabaseSession: SupabaseSession): Session {
-    return new Session(
-      supabaseSession.access_token,
-      supabaseSession.refresh_token
-    );
+    return new Session(supabaseSession.access_token, supabaseSession.refresh_token);
   }
 }

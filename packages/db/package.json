@@ -1,0 +1,32 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "db:seed": "bun scripts/seed.ts",
+    "db:migrate": "bun scripts/migrate.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate:pg",
+    "lint": "biome check .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/env": "workspace:*",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "0.44.7",
+    "kysely": "0.28.8",
+    "pg": "^8.16.3",
+    "postgres": "3.4.7",
+    "supabase": "^2.54.11"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^24.9.2",
+    "drizzle-kit": "0.31.6",
+    "tsup": "8.5.0",
+    "typescript": "5.9.3"
+  }
+}

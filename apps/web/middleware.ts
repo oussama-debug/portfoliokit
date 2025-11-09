@@ -1,5 +1,5 @@
+import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "./lib/auth";
-import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = ["/scheduled"];
 
