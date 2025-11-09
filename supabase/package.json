@@ -12,7 +12,9 @@
     "lint": "supabase db lint",
     "lint:report": "supabase db lint",
     "deploy": "supabase link --project-ref $SUPABASE_PROJECT_REF && supabase db push",
-    "generate": "supabase gen types typescript --local > ./src/database.types.ts"
+    "generate": "supabase gen types typescript --local > ./src/database.types.ts",
+    "db:reset": "supabase db reset",
+    "db:generate": "supabase gen types typescript --local > ./src/database.types.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
