@@ -3,10 +3,7 @@ import { Container } from "@/core/index.js";
 import { UnauthorizedError } from "@/error.js";
 import type { AuthenticationService } from "../../authentication/service.js";
 
-export async function isAuthenticated(
-  context: Context,
-  next: Next
-): Promise<void> {
+export async function isAuthenticated(context: Context, next: Next): Promise<void> {
   const header = context.req.header("authorization");
 
   if (!header || !header.startsWith("Bearer ")) {
@@ -19,9 +16,7 @@ export async function isAuthenticated(
     throw new UnauthorizedError("Token missing from Authorization header");
   }
 
-  const authService = Container.resolve<AuthenticationService>(
-    "AuthenticationService"
-  );
+  const authService = Container.resolve<AuthenticationService>("AuthenticationService");
   const user = await authService.verify(token);
 
   context.set("user", user.toObject());

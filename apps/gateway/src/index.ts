@@ -5,11 +5,7 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
-import {
-  Container,
-  ModuleRegistry,
-  type ApplicationContext,
-} from "./core/index.js";
+import { Container, ModuleRegistry, type ApplicationContext } from "./core/index.js";
 import { requestId } from "./shared/middleware/index.js";
 import { AuthenticationModule } from "./authentication/module.js";
 import { BookingModule } from "./bookings/module.js";
