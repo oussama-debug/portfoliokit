@@ -12,7 +12,7 @@
         "NEXTAUTH_URL",
         "NEXTAUTH_SECRET"
       ],
-      "dependsOn": ["^build", "^db:generate"],
+      "dependsOn": ["^build", "^db:migrate", "^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
@@ -23,6 +23,18 @@
       "dependsOn": ["^check-types"]
     },
     "db:generate": {
+      "env": [
+        "POSTGRES_URL",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "TWILIO_ACCOUNT_TOKEN",
+        "TWILIO_ACCOUNT_SID",
+        "NEXTAUTH_URL",
+        "NEXTAUTH_SECRET"
+      ],
+      "cache": false
+    },
+    "db:migrate": {
       "env": [
         "POSTGRES_URL",
         "SUPABASE_URL",

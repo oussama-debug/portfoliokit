@@ -9,8 +9,7 @@
     "start": "NODE_ENV=production bun src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target node",
     "lint": "biome check .",
-    "check-types": "tsc --noEmit",
-    "postinstall": "turbo run db:migrate"
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
