@@ -13,6 +13,7 @@ import {
 import { requestId } from "./shared/middleware/index.js";
 import { AuthenticationModule } from "./authentication/module.js";
 import { BookingModule } from "./bookings/module.js";
+import { WorkspaceModule } from "./workspaces/module.js";
 import { handleErrors } from "./error.js";
 
 const isDevelopment = env.NODE_ENV === "development";
@@ -23,14 +24,17 @@ export const app = new Hono<ApplicationContext>({ strict: false });
 // Initialize modules
 const authModule = new AuthenticationModule();
 const bookingModule = new BookingModule();
+const workspaceModule = new WorkspaceModule();
 
 // Register modules
 ModuleRegistry.register(authModule);
 ModuleRegistry.register(bookingModule);
+ModuleRegistry.register(workspaceModule);
 
 // Register services in DI container
 authModule.register(Container);
 bookingModule.register(Container);
+workspaceModule.register(Container);
 
 // Global middleware
 app.use(
@@ -58,6 +62,7 @@ app.get("/health", (context) => {
 
 app.route("/v1/gateway/auth", authModule.routes());
 app.route("/v1/gateway/bookings", bookingModule.routes());
+app.route("/v1/gateway", workspaceModule.routes());
 
 app.notFound((context) => {
   return context.json(
