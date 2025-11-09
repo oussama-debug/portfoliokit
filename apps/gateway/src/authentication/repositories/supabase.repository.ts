@@ -5,9 +5,9 @@ import {
   InternalError,
   InvalidCredentialsError,
   TokenRefreshError,
-} from "../../error";
-import { Session, User } from "../model";
-import type { AuthenticationRepository } from "../repository";
+} from "../../error.js";
+import { Session, User } from "../model.js";
+import type { AuthenticationRepository } from "../repository.js";
 
 export class SupabaseAuthenticationRepository implements AuthenticationRepository {
   private _supabaseClient: SupabaseClient;

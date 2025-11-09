@@ -1,8 +1,8 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { Container } from "@/core";
-import type { AuthenticationService } from "./service";
-import { createSchema, loginSchema, logoutSchema, refreshSchema } from "./validator";
+import { Container } from "@/core/index.js";
+import type { AuthenticationService } from "./service.js";
+import { createSchema, loginSchema, logoutSchema, refreshSchema } from "./validator.js";
 
 export const routes = new Hono();
 
