@@ -19,7 +19,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/env": "workspace:*",
+    "@repo/environment": "workspace:*",
     "@types/node": "^22.15.3",
     "typescript": "5.9.2"
   }

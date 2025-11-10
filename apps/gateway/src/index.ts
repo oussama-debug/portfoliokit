@@ -1,47 +1,34 @@
 import { serve } from "@hono/node-server";
-import { env } from "@repo/env";
+import { env } from "@repo/environment";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
-import { Container, ModuleRegistry, type ApplicationContext } from "./core/index.js";
-import { requestId } from "./shared/middleware/index.js";
-import { AuthenticationModule } from "./authentication/module.js";
-import { BookingModule } from "./bookings/module.js";
-import { WorkspaceModule } from "./workspaces/module.js";
-import { handleErrors } from "./error.js";
+import { Container, ModuleRegistry, type AppContext, handleErrors, type Module } from "@repo/core";
+import { requestId } from "./middleware.js";
+
+import { AuthenticationModule } from "@repo/authentication/module";
+import { BookingModule } from "@repo/bookings/module";
+import { WorkspaceModule } from "@repo/workspaces/module";
 
 const isDevelopment = env.NODE_ENV === "development";
-const port = 4000;
+const PORT = 4000;
 
-export const app = new Hono<ApplicationContext>({ strict: false });
+const ALLOWED_ORIGINS = isDevelopment
+  ? ["http://localhost:3000", "https://portfoliokit-six.vercel.app"]
+  : ["https://zenlanes.com", "https://portfoliokit-six.vercel.app"];
 
-// Initialize modules
-const authModule = new AuthenticationModule();
-const bookingModule = new BookingModule();
-const workspaceModule = new WorkspaceModule();
+const modules: Module[] = [new AuthenticationModule(), new BookingModule(), new WorkspaceModule()];
 
-// Register modules
-ModuleRegistry.register(authModule);
-ModuleRegistry.register(bookingModule);
-ModuleRegistry.register(workspaceModule);
+modules.forEach((module) => {
+  ModuleRegistry.register(module);
+  module.register(Container);
+});
 
-// Register services in DI container
-authModule.register(Container);
-bookingModule.register(Container);
-workspaceModule.register(Container);
+export const app = new Hono<AppContext>({ strict: false });
 
-// Global middleware
-app.use(
-  cors({
-    origin: isDevelopment
-      ? ["http://localhost:3000", "https://portfoliokit-six.vercel.app"]
-      : ["https://zenlanes.com", "https://portfoliokit-six.vercel.app"],
-    credentials: true,
-  })
-);
-
+app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }));
 app.use(secureHeaders());
 app.use(logger());
 app.use(prettyJSON());
@@ -52,13 +39,13 @@ app.get("/health", (context) => {
     success: true,
     status: "healthy",
     timestamp: new Date().toISOString(),
-    modules: ModuleRegistry.getAll().map((m: { name: string }) => m.name),
+    modules: ModuleRegistry.getAll().map((m) => m.name),
   });
 });
 
-app.route("/v1/gateway/auth", authModule.routes());
-app.route("/v1/gateway/bookings", bookingModule.routes());
-app.route("/v1/gateway", workspaceModule.routes());
+app.route("/v1/gateway/auth", ModuleRegistry.get("authentication")!.routes());
+app.route("/v1/gateway/bookings", ModuleRegistry.get("bookings")!.routes());
+app.route("/v1/gateway", ModuleRegistry.get("workspaces")!.routes());
 
 app.notFound((context) => {
   return context.json(
@@ -73,27 +60,15 @@ app.notFound((context) => {
 
 app.onError(handleErrors);
 
-console.log(`> Server starting on port ${port}`);
+console.log(`> Server starting on port ${PORT}`);
+console.log(`> Environment: ${env.NODE_ENV}`);
 console.log(
-  `Modules loaded: ${ModuleRegistry.getAll()
-    .map((m: { name: string }) => m.name)
+  `> Modules loaded: ${ModuleRegistry.getAll()
+    .map((m) => m.name)
     .join(", ")}`
 );
 
-app.notFound((_context) => {
-  return _context.json(
-    {
-      success: false,
-      code: "not_found",
-      message: "Route not found",
-    },
-    404
-  );
-});
-
-app.onError(handleErrors);
-
 serve({
   fetch: app.fetch,
-  port: port,
+  port: PORT,
 });

@@ -1,0 +1,30 @@
+{
+  "name": "@repo/authentication",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./module": "./src/module.ts",
+    "./service": "./src/service.ts",
+    "./middleware": "./src/middleware.ts",
+    "./model": "./src/model.ts"
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/core": "workspace:*",
+    "@repo/environment": "workspace:*",
+    "@supabase/supabase-js": "^2.78.0",
+    "hono": "^4.10.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@hono/zod-validator": "^0.7.4",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "typescript": "5.9.2"
+  }
+}

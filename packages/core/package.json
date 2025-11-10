@@ -1,0 +1,29 @@
+{
+  "name": "@repo/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./container": "./src/container.ts",
+    "./context": "./src/context.ts",
+    "./module": "./src/module.ts",
+    "./base": "./src/base.ts",
+    "./error": "./src/error.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/environment": "workspace:*",
+    "hono": "^4.10.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "typescript": "5.9.2"
+  }
+}

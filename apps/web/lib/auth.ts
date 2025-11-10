@@ -1,4 +1,4 @@
-import { env } from "@repo/env";
+import { env } from "@repo/environment";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 

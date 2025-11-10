@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "env-cmd -f ./packages/env/.env turbo run dev",
+    "dev": "env-cmd -f ./packages/environment/.env turbo run dev",
     "lint": "turbo run lint",
     "format": "biome format --write .",
     "check": "biome check --write .",
