@@ -205,6 +205,9 @@
     "supabase": {
       "name": "@repo/supabase",
       "version": "0.0.0",
+      "dependencies": {
+        "supabase": "^2.54.11",
+      },
       "devDependencies": {
         "@repo/environment": "workspace:*",
         "@repo/typescript-config": "workspace:*",

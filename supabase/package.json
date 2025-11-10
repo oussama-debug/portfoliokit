@@ -6,15 +6,18 @@
     ".": "./src/database.types.ts"
   },
   "scripts": {
-    "dev": "(supabase status || supabase start); pnpm run generate",
-    "reset": "supabase db reset || supabase start",
-    "test": "supabase db test",
-    "lint": "supabase db lint",
-    "lint:report": "supabase db lint",
-    "deploy": "supabase link --project-ref $SUPABASE_PROJECT_REF && supabase db push",
-    "generate": "supabase gen types typescript --local > ./src/database.types.ts",
-    "db:reset": "supabase db reset",
-    "db:generate": "supabase gen types typescript --local > ./src/database.types.ts"
+    "dev": "(npx supabase status || npx supabase start); bun run generate",
+    "reset": "npx supabase db reset || npx supabase start",
+    "test": "npx supabase db test",
+    "lint": "npx supabase db lint",
+    "lint:report": "npx supabase db lint",
+    "deploy": "npx supabase link --project-ref $SUPABASE_PROJECT_REF && npx supabase db push",
+    "generate": "npx supabase gen types typescript --local > ./src/database.types.ts",
+    "db:reset": "npx supabase db reset",
+    "db:generate": "npx supabase gen types typescript --local > ./src/database.types.ts"
+  },
+  "dependencies": {
+    "supabase": "^2.54.11"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
