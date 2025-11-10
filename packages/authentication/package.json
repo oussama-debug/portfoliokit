@@ -17,6 +17,7 @@
   "dependencies": {
     "@repo/core": "workspace:*",
     "@repo/environment": "workspace:*",
+    "@repo/supabase": "workspace:*",
     "@supabase/supabase-js": "^2.78.0",
     "hono": "^4.10.3",
     "zod": "^4.1.12"

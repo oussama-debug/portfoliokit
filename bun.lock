@@ -77,6 +77,7 @@
       "dependencies": {
         "@repo/core": "workspace:*",
         "@repo/environment": "workspace:*",
+        "@repo/supabase": "workspace:*",
         "@supabase/supabase-js": "^2.78.0",
         "hono": "^4.10.3",
         "zod": "^4.1.12",
@@ -95,6 +96,7 @@
         "@repo/authentication": "workspace:*",
         "@repo/core": "workspace:*",
         "@repo/environment": "workspace:*",
+        "@repo/supabase": "workspace:*",
         "@supabase/supabase-js": "^2.78.0",
         "hono": "^4.10.3",
         "zod": "^4.1.12",
@@ -188,12 +190,23 @@
         "@repo/authentication": "workspace:*",
         "@repo/core": "workspace:*",
         "@repo/environment": "workspace:*",
+        "@repo/supabase": "workspace:*",
         "@supabase/supabase-js": "^2.78.0",
         "hono": "^4.10.3",
         "zod": "^4.1.12",
       },
       "devDependencies": {
         "@hono/zod-validator": "^0.7.4",
+        "@repo/typescript-config": "workspace:*",
+        "@types/node": "^22.15.3",
+        "typescript": "5.9.2",
+      },
+    },
+    "supabase": {
+      "name": "@repo/supabase",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@repo/environment": "workspace:*",
         "@repo/typescript-config": "workspace:*",
         "@types/node": "^22.15.3",
         "typescript": "5.9.2",
@@ -444,6 +457,8 @@
     "@repo/environment": ["@repo/environment@workspace:packages/environment"],
 
     "@repo/gateway": ["@repo/gateway@workspace:apps/gateway"],
+
+    "@repo/supabase": ["@repo/supabase@workspace:supabase"],
 
     "@repo/typescript-config": ["@repo/typescript-config@workspace:packages/typescript-config"],
 

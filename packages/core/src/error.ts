@@ -126,7 +126,8 @@ export async function handleErrors(
       message: _error.message,
     };
 
-    if (_error instanceof ValidationError && _error.errors) response.errors = _error.errors;
+    if (_error instanceof ValidationError && _error.errors)
+      response.errors = _error.errors;
 
     if (isDev) response.stack = _error.stack;
 
@@ -144,6 +145,10 @@ export async function handleErrors(
   return _context.json(response, 500 as any);
 }
 
-export function throwError(_message: string, _code: string, _statusCode = 400): never {
+export function throwError(
+  _message: string,
+  _code: string,
+  _statusCode = 400
+): never {
   throw new ApplicationError(_message, _code, _statusCode);
 }

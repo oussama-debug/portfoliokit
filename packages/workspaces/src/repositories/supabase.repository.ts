@@ -1,7 +1,12 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { NotFoundError, InternalError } from "@repo/core/error";
 import type { WorkspaceRepository } from "../repository.js";
-import { Workspace, WorkspaceMember, Organization, OrganizationMember } from "../model.js";
+import {
+  Workspace,
+  WorkspaceMember,
+  Organization,
+  OrganizationMember,
+} from "../model.js";
 import type { Database } from "@repo/supabase";
 
 export class SupabaseWorkspaceRepository implements WorkspaceRepository {
@@ -47,7 +52,11 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
   }
 
   async findWorkspaceById(id: string): Promise<Workspace | null> {
-    const { data, error } = await this._client.from("workspaces").select("*").eq("id", id).single();
+    const { data, error } = await this._client
+      .from("workspaces")
+      .select("*")
+      .eq("id", id)
+      .single();
 
     if (error) {
       if (error.code === "PGRST116") return null;
@@ -66,7 +75,10 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async findWorkspaceBySlug(organizationId: string, slug: string): Promise<Workspace | null> {
+  async findWorkspaceBySlug(
+    organizationId: string,
+    slug: string
+  ): Promise<Workspace | null> {
     const { data, error } = await this._client
       .from("workspaces")
       .select("*")
@@ -91,7 +103,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async findWorkspacesByOrganization(organizationId: string): Promise<Workspace[]> {
+  async findWorkspacesByOrganization(
+    organizationId: string
+  ): Promise<Workspace[]> {
     const { data, error } = await this._client
       .from("workspaces")
       .select("*")
@@ -124,7 +138,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .eq("user_id", userId);
 
     if (error) {
-      throw new InternalError(`Failed to fetch user workspaces: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch user workspaces: ${error.message}`
+      );
     }
 
     return data
@@ -157,7 +173,8 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     const updateData: any = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.slug !== undefined) updateData.slug = data.slug;
-    if (data.description !== undefined) updateData.description = data.description;
+    if (data.description !== undefined)
+      updateData.description = data.description;
     if (data.timezone !== undefined) updateData.timezone = data.timezone;
     if (data.isActive !== undefined) updateData.is_active = data.isActive;
     updateData.updated_at = new Date().toISOString();
@@ -190,7 +207,10 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
   }
 
   async deleteWorkspace(id: string): Promise<void> {
-    const { error } = await this._client.from("workspaces").delete().eq("id", id);
+    const { error } = await this._client
+      .from("workspaces")
+      .delete()
+      .eq("id", id);
 
     if (error) {
       throw new InternalError(`Failed to delete workspace: ${error.message}`);
@@ -213,7 +233,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to add workspace member: ${error.message}`);
+      throw new InternalError(
+        `Failed to add workspace member: ${error.message}`
+      );
     }
 
     return new WorkspaceMember(
@@ -225,7 +247,10 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async findWorkspaceMember(workspaceId: string, userId: string): Promise<WorkspaceMember | null> {
+  async findWorkspaceMember(
+    workspaceId: string,
+    userId: string
+  ): Promise<WorkspaceMember | null> {
     const { data, error } = await this._client
       .from("workspace_members")
       .select("*")
@@ -235,7 +260,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
 
     if (error) {
       if (error.code === "PGRST116") return null;
-      throw new InternalError(`Failed to fetch workspace member: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch workspace member: ${error.message}`
+      );
     }
 
     return new WorkspaceMember(
@@ -255,7 +282,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .order("created_at", { ascending: true });
 
     if (error) {
-      throw new InternalError(`Failed to fetch workspace members: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch workspace members: ${error.message}`
+      );
     }
 
     return data.map(
@@ -284,7 +313,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to update workspace member role: ${error.message}`);
+      throw new InternalError(
+        `Failed to update workspace member role: ${error.message}`
+      );
     }
 
     return new WorkspaceMember(
@@ -296,7 +327,10 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async removeWorkspaceMember(workspaceId: string, userId: string): Promise<void> {
+  async removeWorkspaceMember(
+    workspaceId: string,
+    userId: string
+  ): Promise<void> {
     const { error } = await this._client
       .from("workspace_members")
       .delete()
@@ -304,7 +338,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .eq("user_id", userId);
 
     if (error) {
-      throw new InternalError(`Failed to remove workspace member: ${error.message}`);
+      throw new InternalError(
+        `Failed to remove workspace member: ${error.message}`
+      );
     }
   }
 
@@ -324,7 +360,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to create organization: ${error.message}`);
+      throw new InternalError(
+        `Failed to create organization: ${error.message}`
+      );
     }
 
     return new Organization(
@@ -388,7 +426,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .eq("user_id", userId);
 
     if (error) {
-      throw new InternalError(`Failed to fetch user organizations: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch user organizations: ${error.message}`
+      );
     }
 
     return data
@@ -418,7 +458,8 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     const updateData: any = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.slug !== undefined) updateData.slug = data.slug;
-    if (data.description !== undefined) updateData.description = data.description;
+    if (data.description !== undefined)
+      updateData.description = data.description;
     if (data.logoUrl !== undefined) updateData.logo_url = data.logoUrl;
     updateData.updated_at = new Date().toISOString();
 
@@ -430,7 +471,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to update organization: ${error.message}`);
+      throw new InternalError(
+        `Failed to update organization: ${error.message}`
+      );
     }
 
     if (!result) {
@@ -448,10 +491,15 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
   }
 
   async deleteOrganization(id: string): Promise<void> {
-    const { error } = await this._client.from("organizations").delete().eq("id", id);
+    const { error } = await this._client
+      .from("organizations")
+      .delete()
+      .eq("id", id);
 
     if (error) {
-      throw new InternalError(`Failed to delete organization: ${error.message}`);
+      throw new InternalError(
+        `Failed to delete organization: ${error.message}`
+      );
     }
   }
 
@@ -471,7 +519,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to add organization member: ${error.message}`);
+      throw new InternalError(
+        `Failed to add organization member: ${error.message}`
+      );
     }
 
     return new OrganizationMember(
@@ -496,7 +546,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
 
     if (error) {
       if (error.code === "PGRST116") return null;
-      throw new InternalError(`Failed to fetch organization member: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch organization member: ${error.message}`
+      );
     }
 
     return new OrganizationMember(
@@ -508,7 +560,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async findOrganizationMembers(organizationId: string): Promise<OrganizationMember[]> {
+  async findOrganizationMembers(
+    organizationId: string
+  ): Promise<OrganizationMember[]> {
     const { data, error } = await this._client
       .from("organization_members")
       .select("*")
@@ -516,7 +570,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .order("created_at", { ascending: true });
 
     if (error) {
-      throw new InternalError(`Failed to fetch organization members: ${error.message}`);
+      throw new InternalError(
+        `Failed to fetch organization members: ${error.message}`
+      );
     }
 
     return data.map(
@@ -545,7 +601,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .single();
 
     if (error) {
-      throw new InternalError(`Failed to update organization member role: ${error.message}`);
+      throw new InternalError(
+        `Failed to update organization member role: ${error.message}`
+      );
     }
 
     return new OrganizationMember(
@@ -557,7 +615,10 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
     );
   }
 
-  async removeOrganizationMember(organizationId: string, userId: string): Promise<void> {
+  async removeOrganizationMember(
+    organizationId: string,
+    userId: string
+  ): Promise<void> {
     const { error } = await this._client
       .from("organization_members")
       .delete()
@@ -565,7 +626,9 @@ export class SupabaseWorkspaceRepository implements WorkspaceRepository {
       .eq("user_id", userId);
 
     if (error) {
-      throw new InternalError(`Failed to remove organization member: ${error.message}`);
+      throw new InternalError(
+        `Failed to remove organization member: ${error.message}`
+      );
     }
   }
 }

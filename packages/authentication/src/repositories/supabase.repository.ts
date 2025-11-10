@@ -5,7 +5,7 @@ import {
   InternalError,
   InvalidCredentialsError,
   TokenRefreshError,
-} from "../../error.js";
+} from "@repo/core";
 import { Session, User } from "../model.js";
 import type { AuthenticationRepository } from "../repository.js";
 

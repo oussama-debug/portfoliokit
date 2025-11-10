@@ -17,7 +17,6 @@
     "db:generate": "supabase gen types typescript --local > ./src/database.types.ts"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@repo/environment": "workspace:*",
     "@types/node": "^22.15.3",
