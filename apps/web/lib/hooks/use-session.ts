@@ -1,9 +1,11 @@
 "use client";
 
+import { type Session } from "next-auth";
 import { useSession as useNextAuthSession } from "next-auth/react";
 
 export function useSession() {
-  const { data: session, status } = useNextAuthSession();
+  const { data, status } = useNextAuthSession();
+  const session = data as Session | null;
 
   return {
     session,

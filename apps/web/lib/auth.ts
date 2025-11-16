@@ -1,6 +1,9 @@
 import { env } from "@repo/environment";
-import NextAuth, { type NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
+import type { NextAuthResult } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import type { Session, User } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
 type GatewayAuthResponse = {
   success: boolean;
@@ -21,7 +24,13 @@ async function loginToGateway(
   password: string
 ): Promise<GatewayAuthResponse | null> {
   try {
-    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/login`, {
+    const apiUrl = env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      console.error("API URL not configured");
+      return null;
+    }
+
+    const response = await fetch(`${apiUrl}/v1/gateway/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -35,9 +44,15 @@ async function loginToGateway(
   }
 }
 
-async function refreshToken(token: string): Promise<GatewayAuthResponse | null> {
+async function refreshGatewayToken(token: string): Promise<GatewayAuthResponse | null> {
   try {
-    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/refresh`, {
+    const apiUrl = env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      console.error("API URL not configured");
+      return null;
+    }
+
+    const response = await fetch(`${apiUrl}/v1/gateway/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
@@ -51,17 +66,17 @@ async function refreshToken(token: string): Promise<GatewayAuthResponse | null> 
   }
 }
 
-export const authConfig: NextAuthConfig = {
+const nextAuth = NextAuth({
   providers: [
     Credentials({
-      name: "credentials",
+      name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email", type: "email", placeholder: "email@example.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null;
+          throw new Error("Missing credentials");
         }
 
         const result = await loginToGateway(
@@ -70,7 +85,7 @@ export const authConfig: NextAuthConfig = {
         );
 
         if (!result || !result.success) {
-          return null;
+          throw new Error("Invalid credentials");
         }
 
         return {
@@ -85,7 +100,17 @@ export const authConfig: NextAuthConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      user: User;
+      trigger?: "signIn" | "signUp" | "update";
+      session?: any;
+    }) {
       if (user) {
         token.id = user.id;
         token.username = user.username;
@@ -94,8 +119,8 @@ export const authConfig: NextAuthConfig = {
         token.refresh_token = user.refresh_token;
       }
 
-      if (trigger === "update" && token.refresh_token && typeof token.refresh_token === "string") {
-        const refreshed = await refreshToken(token.refresh_token);
+      if (trigger === "update" && session?.refresh_token) {
+        const refreshed = await refreshGatewayToken(session.refresh_token);
         if (refreshed?.success) {
           token.access_token = refreshed.session.access_token;
           token.refresh_token = refreshed.session.refresh_token;
@@ -104,27 +129,51 @@ export const authConfig: NextAuthConfig = {
 
       return token;
     },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-        session.user.username = token.username as string;
-        session.user.email_confirmed = token.email_confirmed as boolean;
-        session.access_token = token.access_token as string;
-        session.refresh_token = token.refresh_token as string;
-      }
+    async session({ session, token }: { session: Session; token: JWT }) {
+      session.user.id = token.id;
+      session.user.username = token.username;
+      session.user.email_confirmed = token.email_confirmed;
+      session.access_token = token.access_token;
+      session.refresh_token = token.refresh_token;
+
       return session;
+    },
+    async authorized({
+      auth,
+      request: { nextUrl },
+    }: {
+      auth: Session | null;
+      request: { nextUrl: URL };
+    }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnProtectedRoute =
+        nextUrl.pathname.startsWith("/scheduled") || nextUrl.pathname.startsWith("/settings");
+      const isOnAuthPage =
+        nextUrl.pathname.startsWith("/login") || nextUrl.pathname.startsWith("/register");
+
+      if (isOnProtectedRoute && !isLoggedIn) {
+        return false;
+      }
+
+      if (isOnAuthPage && isLoggedIn) {
+        return Response.redirect(new URL("/scheduled", nextUrl));
+      }
+
+      return true;
     },
   },
   session: {
     strategy: "jwt",
-    maxAge: 3600,
+    maxAge: 60 * 60,
   },
   pages: {
     signIn: "/login",
     error: "/login",
-    newUser: "/register",
   },
-  secret: env.NEXTAUTH_SECRET,
-} satisfies NextAuthConfig;
+  trustHost: true,
+});
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+export const handlers: NextAuthResult["handlers"] = nextAuth.handlers;
+export const auth: NextAuthResult["auth"] = nextAuth.auth;
+export const signIn: NextAuthResult["signIn"] = nextAuth.signIn;
+export const signOut: NextAuthResult["signOut"] = nextAuth.signOut;
