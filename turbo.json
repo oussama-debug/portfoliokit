@@ -12,7 +12,7 @@
         "NEXTAUTH_URL",
         "NEXTAUTH_SECRET"
       ],
-      "dependsOn": ["^build", "^db:migrate", "^db:generate"],
+      "dependsOn": ["^build", "^db:migrate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
@@ -73,7 +73,7 @@
         "NEXTAUTH_URL",
         "NEXTAUTH_SECRET"
       ],
-      "dependsOn": ["^db:migrate"],
+      "dependsOn": ["^db:migrate", "^db:generate"],
       "cache": false,
       "persistent": true
     }
