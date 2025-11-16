@@ -11,12 +11,17 @@ export class AuthenticationModule implements Module {
   register(container: typeof Container): void {
     container.register(
       "AuthenticationRepository",
-      () => new SupabaseAuthenticationRepository(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
+      () =>
+        new SupabaseAuthenticationRepository(
+          env.SUPABASE_URL!,
+          env.SUPABASE_ANON_KEY!
+        )
     );
 
     container.register(
       "AuthenticationService",
-      () => new AuthenticationService(container.resolve("AuthenticationRepository"))
+      () =>
+        new AuthenticationService(container.resolve("AuthenticationRepository"))
     );
   }
 

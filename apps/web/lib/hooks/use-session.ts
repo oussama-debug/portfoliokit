@@ -1,18 +1,16 @@
 "use client";
 
-import { type Session } from "next-auth";
-import { useSession as useNextAuthSession } from "next-auth/react";
+import { useSession as useBetterSession } from "@/lib/auth/auth-client";
 
 export function useSession() {
-  const { data, status } = useNextAuthSession();
-  const session = data as Session | null;
+  const { data: session, isPending, error } = useBetterSession();
 
   return {
-    session,
+    session: session || null,
     user: session?.user,
-    accessToken: session?.access_token,
-    refreshToken: session?.refresh_token,
-    isLoading: status === "loading",
-    isAuthenticated: status === "authenticated",
+    accessToken: session?.session.token,
+    isLoading: isPending,
+    isAuthenticated: !!session?.user,
+    error,
   };
 }

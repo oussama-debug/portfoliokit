@@ -2,13 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
-import { Field, FieldError } from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
 import { Label } from "@repo/ui/components/label";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
 import { Separator } from "@repo/ui/components/separator";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { signIn } from "@/lib/auth/auth-client";
+import { useState, useId } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,7 +20,8 @@ type LoginType = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const [error, _setError] = useState<string | null>(null);
+  const emailId = useId();
+  const passwordId = useId();
 
   const {
     register,
@@ -32,69 +32,62 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginType) => {
-    const { error } = await signIn("credentials", {
+    const result = await signIn.email({
       email: data.email,
       password: data.password,
-      redirect: false,
+      callbackURL: "/scheduled",
     });
 
-    if (error) {
+    if (result?.error) {
       return;
     }
 
     router.push("/scheduled");
   };
 
-  const handleGoogleSignIn = async () => {
-    await signIn("google", { callbackUrl: "/scheduled" });
-  };
+  const handleGoogleSignIn = async () => {};
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
-      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full flex-col gap-4"
+    >
+      <div className="flex flex-col items-start gap-2">
+        <Label htmlFor={emailId}>Email</Label>
+        <Input
+          id={emailId}
+          type="email"
+          placeholder="you@example.com"
+          aria-label="Email"
+          autoFocus
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="text-sm text-red-600">{errors.email.message}</p>
+        )}
+      </div>
 
-      <Field>
-        <InputGroup>
-          <InputGroupAddon align="block-start">
-            <Label htmlFor="email" className="text-foreground">
-              Email
-            </Label>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="email"
-            type="email"
-            placeholder="john@acme.com"
-            autoFocus
-            {...register("email")}
-          />
-        </InputGroup>
-        {errors.email && <FieldError>{errors.email.message}</FieldError>}
-      </Field>
+      <div className="flex flex-col items-start gap-2">
+        <Label htmlFor={passwordId}>Password</Label>
+        <Input
+          id={passwordId}
+          type="password"
+          placeholder="••••••••"
+          aria-label="Password"
+          {...register("password")}
+        />
+        {errors.password && (
+          <p className="text-sm text-red-600">{errors.password.message}</p>
+        )}
+      </div>
 
-      <Field>
-        <InputGroup>
-          <InputGroupAddon align="block-start">
-            <Label htmlFor="password" className="text-foreground">
-              Password
-            </Label>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            {...register("password")}
-          />
-        </InputGroup>
-        {errors.password && <FieldError>{errors.password.message}</FieldError>}
-      </Field>
-
-      <Button type="submit" disabled={isSubmitting} className="mt-1 mb-1">
+      <Button type="submit" disabled={isSubmitting} className="mt-2">
         {isSubmitting ? "Signing in..." : "Continue"}
       </Button>
 
       <Separator />
 
-      <div className="flex flex-col space-y-2 mt-1 w-full">
+      <div className="flex flex-col space-y-2 w-full">
         <Button
           disabled={isSubmitting}
           type="button"

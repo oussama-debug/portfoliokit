@@ -9,7 +9,7 @@
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
         "TWILIO_ACCOUNT_SID",
-        "NEXTAUTH_URL",
+        "NEXT_PUBLIC_AUTH_URL",
         "NEXTAUTH_SECRET"
       ],
       "dependsOn": ["^build", "^db:migrate"],
@@ -23,7 +23,7 @@
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
         "TWILIO_ACCOUNT_SID",
-        "NEXTAUTH_URL",
+        "NEXT_PUBLIC_AUTH_URL",
         "NEXTAUTH_SECRET"
       ],
       "dependsOn": ["^db:migrate"],
@@ -43,7 +43,7 @@
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
         "TWILIO_ACCOUNT_SID",
-        "NEXTAUTH_URL",
+        "NEXT_PUBLIC_AUTH_URL",
         "NEXTAUTH_SECRET"
       ],
       "cache": false
@@ -55,7 +55,7 @@
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
         "TWILIO_ACCOUNT_SID",
-        "NEXTAUTH_URL",
+        "NEXT_PUBLIC_AUTH_URL",
         "NEXTAUTH_SECRET"
       ],
       "cache": false
@@ -70,7 +70,7 @@
         "SUPABASE_ANON_KEY",
         "TWILIO_ACCOUNT_TOKEN",
         "TWILIO_ACCOUNT_SID",
-        "NEXTAUTH_URL",
+        "NEXT_PUBLIC_AUTH_URL",
         "NEXTAUTH_SECRET"
       ],
       "dependsOn": ["^db:migrate", "^db:generate"],

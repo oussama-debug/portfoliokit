@@ -2,19 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
-import { Field, FieldDescription, FieldError } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
 import { Label } from "@repo/ui/components/label";
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@repo/ui/components/input-group";
-import { Popover, PopoverTrigger, PopoverPopup } from "@repo/ui/components/popover";
 import { Separator } from "@repo/ui/components/separator";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { signUp } from "@/lib/auth/auth-client";
+import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { InformationSquareIcon } from "@hugeicons/core-free-icons";
 
 const registerSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -22,14 +17,18 @@ const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .max(128, "Password must not exceed 128 characters")
-    .regex(/(?=.*[a-zA-Z])(?=.*\d)/, "Password must contain at least one letter and one number"),
+    .regex(
+      /(?=.*[a-zA-Z])(?=.*\d)/,
+      "Password must contain at least one letter and one number"
+    ),
 });
 
 type RegisterType = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
-  const [error, _setError] = useState<string | null>(null);
+  const emailId = useId();
+  const passwordId = useId();
 
   const {
     register,
@@ -40,24 +39,14 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterType) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/gateway/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: data.email,
-        password: data.password,
-      }),
-    });
-
-    if (!response.ok) return;
-
-    const { error } = await signIn("credentials", {
+    const result = await signUp.email({
       email: data.email,
       password: data.password,
-      redirect: false,
+      name: "",
+      callbackURL: "/scheduled",
     });
 
-    if (error) {
+    if (result?.error) {
       return;
     }
 
@@ -65,75 +54,54 @@ export function RegisterForm() {
   };
 
   const handleGoogleSignIn = async () => {
-    await signIn("google", { callbackUrl: "/scheduled" });
+    // TODO: Implement Google sign-in
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4 gap-y-2">
-      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full flex-col gap-4"
+    >
+      <div className="flex flex-col items-start gap-2">
+        <Label htmlFor={emailId}>Email</Label>
+        <Input
+          id={emailId}
+          type="email"
+          placeholder="john@acme.com"
+          aria-label="Email"
+          autoFocus
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="text-sm text-red-600">{errors.email.message}</p>
+        )}
+      </div>
 
-      <Field>
-        <InputGroup>
-          <InputGroupAddon align="block-start">
-            <Label htmlFor="email" className="text-foreground">
-              Email
-            </Label>
-            <Popover openOnHover>
-              <PopoverTrigger
-                className="ml-auto"
-                render={<Button variant="ghost" size="icon-xs" className="-m-1" />}
-              >
-                <HugeiconsIcon
-                  icon={InformationSquareIcon}
-                  size={16}
-                  color="currentColor"
-                  strokeWidth={1.5}
-                />
-              </PopoverTrigger>
-              <PopoverPopup tooltipStyle side="top">
-                <p>We&apos;ll use this to send you notifications</p>
-              </PopoverPopup>
-            </Popover>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="email"
-            type="email"
-            placeholder="john@acme.com"
-            autoFocus
-            {...register("email")}
-          />
-        </InputGroup>
-        {errors.email && <FieldError>{errors.email.message}</FieldError>}
-      </Field>
+      <div className="flex flex-col items-start gap-2">
+        <Label htmlFor={passwordId}>Password</Label>
+        <Input
+          id={passwordId}
+          type="password"
+          placeholder="••••••••"
+          aria-label="Password"
+          {...register("password")}
+        />
+        <p className="text-sm text-muted-foreground">
+          Your password must be at least 8 characters long and contain at least
+          one letter and one number.
+        </p>
+        {errors.password && (
+          <p className="text-sm text-red-600">{errors.password.message}</p>
+        )}
+      </div>
 
-      <Field>
-        <InputGroup>
-          <InputGroupAddon align="block-start">
-            <Label htmlFor="password" className="text-foreground">
-              Password
-            </Label>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            {...register("password")}
-          />
-        </InputGroup>
-        <FieldDescription>
-          Your password must be at least 8 characters long and contain at least one letter and one
-          number.
-        </FieldDescription>
-        {errors.password && <FieldError>{errors.password.message}</FieldError>}
-      </Field>
-
-      <Button type="submit" disabled={isSubmitting} className="mt-1 mb-1">
+      <Button type="submit" disabled={isSubmitting} className="mt-2">
         {isSubmitting ? "Creating account..." : "Continue"}
       </Button>
 
       <Separator />
 
-      <div className="flex flex-col space-y-2 mt-1 w-full">
+      <div className="flex flex-col space-y-2 w-full">
         <Button
           disabled={isSubmitting}
           type="button"
