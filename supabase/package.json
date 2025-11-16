@@ -17,12 +17,12 @@
     "db:generate": "npx supabase gen types typescript --local > ./src/database.types.ts"
   },
   "dependencies": {
-    "supabase": "^2.54.11"
+    "supabase": "^2.58.5"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@repo/environment": "workspace:*",
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.19.1",
     "typescript": "5.9.2"
   }
 }

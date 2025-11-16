@@ -16,6 +16,20 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
+    "start": {
+      "env": [
+        "POSTGRES_URL",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "TWILIO_ACCOUNT_TOKEN",
+        "TWILIO_ACCOUNT_SID",
+        "NEXTAUTH_URL",
+        "NEXTAUTH_SECRET"
+      ],
+      "dependsOn": ["^db:migrate"],
+      "cache": false,
+      "persistent": true
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },
@@ -59,6 +73,7 @@
         "NEXTAUTH_URL",
         "NEXTAUTH_SECRET"
       ],
+      "dependsOn": ["^db:migrate"],
       "cache": false,
       "persistent": true
     }

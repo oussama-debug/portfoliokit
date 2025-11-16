@@ -9,13 +9,12 @@ export class WorkspaceModule implements Module {
   readonly name = "workspaces";
 
   register(container: typeof Container): void {
-    // Register repository
     container.register(
       "WorkspaceRepository",
-      () => new SupabaseWorkspaceRepository(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
+      () =>
+        new SupabaseWorkspaceRepository(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
     );
 
-    // Register service
     container.register(
       "WorkspaceService",
       () => new WorkspaceService(container.resolve("WorkspaceRepository"))

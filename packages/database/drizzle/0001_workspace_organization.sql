@@ -1,14 +1,42 @@
+-- Drop existing types if they exist
+DROP TYPE IF EXISTS "member_role" CASCADE;
+DROP TYPE IF EXISTS "day_of_week" CASCADE;
+DROP TYPE IF EXISTS "booking_status" CASCADE;
+
 -- Create enums
 CREATE TYPE "member_role" AS ENUM ('owner', 'admin', 'member');
 CREATE TYPE "day_of_week" AS ENUM ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
 CREATE TYPE "booking_status" AS ENUM ('pending', 'confirmed', 'cancelled', 'completed');
 
--- Update users table
-ALTER TABLE "users" ADD COLUMN "email" VARCHAR(255) NOT NULL UNIQUE;
-ALTER TABLE "users" ADD COLUMN "avatar_url" TEXT;
-ALTER TABLE "users" ADD COLUMN "created_at" TIMESTAMP DEFAULT NOW() NOT NULL;
-ALTER TABLE "users" ADD COLUMN "updated_at" TIMESTAMP DEFAULT NOW() NOT NULL;
-ALTER TABLE "users" RENAME COLUMN "full_name" TO "full_name";
+-- Update users table (add columns if they don't exist)
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='email') THEN
+    ALTER TABLE "users" ADD COLUMN "email" VARCHAR(255) NOT NULL UNIQUE;
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='avatar_url') THEN
+    ALTER TABLE "users" ADD COLUMN "avatar_url" TEXT;
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='created_at') THEN
+    ALTER TABLE "users" ADD COLUMN "created_at" TIMESTAMP DEFAULT NOW() NOT NULL;
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='updated_at') THEN
+    ALTER TABLE "users" ADD COLUMN "updated_at" TIMESTAMP DEFAULT NOW() NOT NULL;
+  END IF;
+END $$;
+
+-- Drop existing tables if they exist
+DROP TABLE IF EXISTS "bookings" CASCADE;
+DROP TABLE IF EXISTS "availability_slots" CASCADE;
+DROP TABLE IF EXISTS "availability_schedules" CASCADE;
+DROP TABLE IF EXISTS "booking_types" CASCADE;
+DROP TABLE IF EXISTS "workspace_members" CASCADE;
+DROP TABLE IF EXISTS "organization_members" CASCADE;
+DROP TABLE IF EXISTS "workspaces" CASCADE;
+DROP TABLE IF EXISTS "organizations" CASCADE;
 
 -- Create organizations table
 CREATE TABLE "organizations" (
@@ -108,9 +136,7 @@ CREATE TABLE "availability_slots" (
 
 CREATE INDEX "availability_slot_schedule_id_idx" ON "availability_slots"("schedule_id");
 
--- Update bookings table
-DROP TABLE IF EXISTS "bookings";
-
+-- Create bookings table
 CREATE TABLE "bookings" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "workspace_id" UUID NOT NULL REFERENCES "workspaces"("id") ON DELETE CASCADE,
@@ -133,66 +159,5 @@ CREATE INDEX "booking_host_user_id_idx" ON "bookings"("host_user_id");
 CREATE INDEX "booking_start_time_idx" ON "bookings"("start_time");
 CREATE INDEX "booking_guest_email_idx" ON "bookings"("guest_email");
 
--- Enable RLS on all tables
-ALTER TABLE "organizations" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "workspaces" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "organization_members" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "workspace_members" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "booking_types" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "availability_schedules" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "availability_slots" ENABLE ROW LEVEL SECURITY;
-ALTER TABLE "bookings" ENABLE ROW LEVEL SECURITY;
-
--- RLS Policies for organizations
-CREATE POLICY "users can view organizations they are members of"
-  ON "organizations" FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM "organization_members"
-      WHERE "organization_members"."organization_id" = "organizations"."id"
-      AND "organization_members"."user_id" = auth.uid()
-    )
-  );
-
-CREATE POLICY "organization owners can update their organization"
-  ON "organizations" FOR UPDATE
-  USING (
-    EXISTS (
-      SELECT 1 FROM "organization_members"
-      WHERE "organization_members"."organization_id" = "organizations"."id"
-      AND "organization_members"."user_id" = auth.uid()
-      AND "organization_members"."role" = 'owner'
-    )
-  );
-
--- RLS Policies for workspaces
-CREATE POLICY "users can view workspaces they have access to"
-  ON "workspaces" FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM "workspace_members"
-      WHERE "workspace_members"."workspace_id" = "workspaces"."id"
-      AND "workspace_members"."user_id" = auth.uid()
-    )
-    OR
-    EXISTS (
-      SELECT 1 FROM "organization_members"
-      WHERE "organization_members"."organization_id" = "workspaces"."organization_id"
-      AND "organization_members"."user_id" = auth.uid()
-    )
-  );
-
--- RLS Policies for bookings (public read for guest booking, authenticated for management)
-CREATE POLICY "anyone can view bookings by workspace slug"
-  ON "bookings" FOR SELECT
-  USING (TRUE);
-
-CREATE POLICY "workspace members can manage bookings"
-  ON "bookings" FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM "workspace_members"
-      WHERE "workspace_members"."workspace_id" = "bookings"."workspace_id"
-      AND "workspace_members"."user_id" = auth.uid()
-    )
-  );
+-- Note: RLS policies removed for standard PostgreSQL compatibility
+-- If using Supabase, add RLS policies separately

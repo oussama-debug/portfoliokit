@@ -4,9 +4,23 @@
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1762109329187,
+      "version": "7",
+      "when": 1700000000000,
       "tag": "0000_smiling_swordsman",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1700000001000,
+      "tag": "0001_workspace_organization",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1700000001000,
+      "tag": "0002_enable_extensions",
       "breakpoints": true
     }
   ]

@@ -8,7 +8,12 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "start": "turbo run start --filter=@repo/gateway",
+    "start:gateway": "turbo run db:migrate --filter=@repo/database && turbo run start --filter=@repo/gateway",
     "dev": "env-cmd -f ./packages/environment/.env turbo run dev",
+    "db:generate": "env-cmd -f ./packages/environment/.env turbo run db:generate",
+    "db:migrate": "env-cmd -f ./packages/environment/.env turbo run db:migrate",
+
     "lint": "turbo run lint",
     "format": "biome format --write .",
     "check": "biome check --write .",
