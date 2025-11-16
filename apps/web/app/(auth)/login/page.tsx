@@ -1,4 +1,3 @@
-import { Header } from "../../_components/header";
 import { LoginForm } from "../_components/forms/login-form";
 
 export default async function LoginPage() {

@@ -17,10 +17,7 @@ const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .max(128, "Password must not exceed 128 characters")
-    .regex(
-      /(?=.*[a-zA-Z])(?=.*\d)/,
-      "Password must contain at least one letter and one number"
-    ),
+    .regex(/(?=.*[a-zA-Z])(?=.*\d)/, "Password must contain at least one letter and one number"),
 });
 
 type RegisterType = z.infer<typeof registerSchema>;
@@ -58,10 +55,7 @@ export function RegisterForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4">
       <div className="flex flex-col items-start gap-2">
         <Label htmlFor={emailId}>Email</Label>
         <Input
@@ -72,9 +66,7 @@ export function RegisterForm() {
           autoFocus
           {...register("email")}
         />
-        {errors.email && (
-          <p className="text-sm text-red-600">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
       </div>
 
       <div className="flex flex-col items-start gap-2">
@@ -87,12 +79,10 @@ export function RegisterForm() {
           {...register("password")}
         />
         <p className="text-sm text-muted-foreground">
-          Your password must be at least 8 characters long and contain at least
-          one letter and one number.
+          Your password must be at least 8 characters long and contain at least one letter and one
+          number.
         </p>
-        {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting} className="mt-2">

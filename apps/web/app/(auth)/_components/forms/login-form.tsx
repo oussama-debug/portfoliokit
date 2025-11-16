@@ -48,10 +48,7 @@ export function LoginForm() {
   const handleGoogleSignIn = async () => {};
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-4">
       <div className="flex flex-col items-start gap-2">
         <Label htmlFor={emailId}>Email</Label>
         <Input
@@ -62,9 +59,7 @@ export function LoginForm() {
           autoFocus
           {...register("email")}
         />
-        {errors.email && (
-          <p className="text-sm text-red-600">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
       </div>
 
       <div className="flex flex-col items-start gap-2">
@@ -76,9 +71,7 @@ export function LoginForm() {
           aria-label="Password"
           {...register("password")}
         />
-        {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting} className="mt-2">

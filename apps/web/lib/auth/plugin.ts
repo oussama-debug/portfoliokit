@@ -46,10 +46,7 @@ const zenlanes = () => {
             return ctx.json(
               {
                 success: false,
-                error:
-                  error instanceof Error
-                    ? error.message
-                    : "Registration failed",
+                error: error instanceof Error ? error.message : "Registration failed",
               },
               { status: 400 }
             );
@@ -103,8 +100,7 @@ const zenlanes = () => {
             return ctx.json(
               {
                 success: false,
-                error:
-                  error instanceof Error ? error.message : "Sign out failed",
+                error: error instanceof Error ? error.message : "Sign out failed",
               },
               { status: 400 }
             );
@@ -142,10 +138,7 @@ const zenlanes = () => {
             return ctx.json(
               {
                 success: false,
-                error:
-                  error instanceof Error
-                    ? error.message
-                    : "Session verification failed",
+                error: error instanceof Error ? error.message : "Session verification failed",
               },
               { status: 401 }
             );
@@ -174,10 +167,7 @@ const zenlanes = () => {
             return ctx.json(
               {
                 success: false,
-                error:
-                  error instanceof Error
-                    ? error.message
-                    : "Token refresh failed",
+                error: error instanceof Error ? error.message : "Token refresh failed",
               },
               { status: 401 }
             );

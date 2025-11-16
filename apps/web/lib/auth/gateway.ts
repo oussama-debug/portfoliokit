@@ -1,9 +1,7 @@
 import { env } from "@repo/environment";
 
 const GATEWAY_URL =
-  env.NEXT_PUBLIC_API_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+  env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export interface GatewayAuthResponse {
   success: boolean;
@@ -20,10 +18,7 @@ export interface GatewayAuthResponse {
 }
 
 export const gatewayClient = {
-  async signUp(
-    username: string,
-    password: string
-  ): Promise<GatewayAuthResponse> {
+  async signUp(username: string, password: string): Promise<GatewayAuthResponse> {
     const response = await fetch(`${GATEWAY_URL}/v1/gateway/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,19 +26,14 @@ export const gatewayClient = {
     });
 
     if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: "Registration failed" }));
+      const error = await response.json().catch(() => ({ message: "Registration failed" }));
       throw new Error(error.message || "Registration failed");
     }
 
     return response.json();
   },
 
-  async signIn(
-    username: string,
-    password: string
-  ): Promise<GatewayAuthResponse> {
+  async signIn(username: string, password: string): Promise<GatewayAuthResponse> {
     const response = await fetch(`${GATEWAY_URL}/v1/gateway/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -51,9 +41,7 @@ export const gatewayClient = {
     });
 
     if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: "Login failed" }));
+      const error = await response.json().catch(() => ({ message: "Login failed" }));
       throw new Error(error.message || "Invalid credentials");
     }
 
