@@ -12,11 +12,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const memberRoleEnum = pgEnum("member_role", [
-  "owner",
-  "admin",
-  "member",
-]);
+export const memberRoleEnum = pgEnum("member_role", ["owner", "admin", "member"]);
 export const dayOfWeekEnum = pgEnum("day_of_week", [
   "monday",
   "tuesday",
@@ -109,9 +105,7 @@ export const workspaceMembers = pgTable(
   },
   (table) => ({
     uniqueWorkspaceUser: unique().on(table.workspaceId, table.userId),
-    workspaceIdIdx: index("workspace_member_workspace_id_idx").on(
-      table.workspaceId
-    ),
+    workspaceIdIdx: index("workspace_member_workspace_id_idx").on(table.workspaceId),
     userIdIdx: index("workspace_member_user_id_idx").on(table.userId),
   })
 );
@@ -134,9 +128,7 @@ export const bookingTypes = pgTable(
   },
   (table) => ({
     uniqueWorkspaceSlug: unique().on(table.workspaceId, table.slug),
-    workspaceIdIdx: index("booking_type_workspace_id_idx").on(
-      table.workspaceId
-    ),
+    workspaceIdIdx: index("booking_type_workspace_id_idx").on(table.workspaceId),
   })
 );
 
@@ -157,9 +149,7 @@ export const availabilitySchedules = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (table) => ({
-    workspaceIdIdx: index("availability_schedule_workspace_id_idx").on(
-      table.workspaceId
-    ),
+    workspaceIdIdx: index("availability_schedule_workspace_id_idx").on(table.workspaceId),
     userIdIdx: index("availability_schedule_user_id_idx").on(table.userId),
   })
 );
@@ -177,9 +167,7 @@ export const availabilitySlots = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => ({
-    scheduleIdIdx: index("availability_slot_schedule_id_idx").on(
-      table.scheduleId
-    ),
+    scheduleIdIdx: index("availability_slot_schedule_id_idx").on(table.scheduleId),
   })
 );
 
@@ -227,19 +215,16 @@ export const organizationsRelations = relations(organizations, ({ many }) => ({
   members: many(organizationMembers),
 }));
 
-export const organizationMembersRelations = relations(
-  organizationMembers,
-  ({ one }) => ({
-    organization: one(organizations, {
-      fields: [organizationMembers.organizationId],
-      references: [organizations.id],
-    }),
-    user: one(users, {
-      fields: [organizationMembers.userId],
-      references: [users.id],
-    }),
-  })
-);
+export const organizationMembersRelations = relations(organizationMembers, ({ one }) => ({
+  organization: one(organizations, {
+    fields: [organizationMembers.organizationId],
+    references: [organizations.id],
+  }),
+  user: one(users, {
+    fields: [organizationMembers.userId],
+    references: [users.id],
+  }),
+}));
 
 export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
   organization: one(organizations, {
@@ -252,55 +237,43 @@ export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
   bookings: many(bookings),
 }));
 
-export const workspaceMembersRelations = relations(
-  workspaceMembers,
-  ({ one }) => ({
-    workspace: one(workspaces, {
-      fields: [workspaceMembers.workspaceId],
-      references: [workspaces.id],
-    }),
-    user: one(users, {
-      fields: [workspaceMembers.userId],
-      references: [users.id],
-    }),
-  })
-);
+export const workspaceMembersRelations = relations(workspaceMembers, ({ one }) => ({
+  workspace: one(workspaces, {
+    fields: [workspaceMembers.workspaceId],
+    references: [workspaces.id],
+  }),
+  user: one(users, {
+    fields: [workspaceMembers.userId],
+    references: [users.id],
+  }),
+}));
 
-export const bookingTypesRelations = relations(
-  bookingTypes,
-  ({ one, many }) => ({
-    workspace: one(workspaces, {
-      fields: [bookingTypes.workspaceId],
-      references: [workspaces.id],
-    }),
-    bookings: many(bookings),
-  })
-);
+export const bookingTypesRelations = relations(bookingTypes, ({ one, many }) => ({
+  workspace: one(workspaces, {
+    fields: [bookingTypes.workspaceId],
+    references: [workspaces.id],
+  }),
+  bookings: many(bookings),
+}));
 
-export const availabilitySchedulesRelations = relations(
-  availabilitySchedules,
-  ({ one, many }) => ({
-    workspace: one(workspaces, {
-      fields: [availabilitySchedules.workspaceId],
-      references: [workspaces.id],
-    }),
-    user: one(users, {
-      fields: [availabilitySchedules.userId],
-      references: [users.id],
-    }),
-    slots: many(availabilitySlots),
-  })
-);
+export const availabilitySchedulesRelations = relations(availabilitySchedules, ({ one, many }) => ({
+  workspace: one(workspaces, {
+    fields: [availabilitySchedules.workspaceId],
+    references: [workspaces.id],
+  }),
+  user: one(users, {
+    fields: [availabilitySchedules.userId],
+    references: [users.id],
+  }),
+  slots: many(availabilitySlots),
+}));
 
-export const availabilitySlotsRelations = relations(
-  availabilitySlots,
-  ({ one }) => ({
-    schedule: one(availabilitySchedules, {
-      fields: [availabilitySlots.scheduleId],
-      references: [availabilitySchedules.id],
-    }),
-  })
-);
+export const availabilitySlotsRelations = relations(availabilitySlots, ({ one }) => ({
+  schedule: one(availabilitySchedules, {
+    fields: [availabilitySlots.scheduleId],
+    references: [availabilitySchedules.id],
+  }),
+}));
 
 export const bookingsRelations = relations(bookings, ({ one }) => ({
   workspace: one(workspaces, {

@@ -2,7 +2,8 @@ import { createEnv } from "@t3-oss/env-core";
 import z from "zod";
 
 // Skip validation during build time
-const skipValidation = process.env.SKIP_ENV_VALIDATION === "true" || process.env.NODE_ENV === "test";
+const skipValidation =
+  process.env.SKIP_ENV_VALIDATION === "true" || process.env.NODE_ENV === "test";
 
 export const env = createEnv({
   server: {

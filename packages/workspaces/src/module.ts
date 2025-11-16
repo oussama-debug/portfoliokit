@@ -11,8 +11,7 @@ export class WorkspaceModule implements Module {
   register(container: typeof Container): void {
     container.register(
       "WorkspaceRepository",
-      () =>
-        new SupabaseWorkspaceRepository(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
+      () => new SupabaseWorkspaceRepository(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
     );
 
     container.register(
