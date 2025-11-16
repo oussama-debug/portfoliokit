@@ -13,13 +13,13 @@
       "idx": 1,
       "version": "7",
       "when": 1700000001000,
-      "tag": "0001_workspace_organization",
+      "tag": "0001_enable_rls",
       "breakpoints": true
     },
     {
-      "idx": 1,
+      "idx": 2,
       "version": "7",
-      "when": 1700000001000,
+      "when": 1700000002000,
       "tag": "0002_enable_extensions",
       "breakpoints": true
     }

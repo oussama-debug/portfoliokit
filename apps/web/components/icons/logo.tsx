@@ -1,11 +1,11 @@
-import type { SVGProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-export function Logo(props: SVGProps<SVGSVGElement>) {
+export function Logo(props: ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      id="_\u0421\u043B\u043E\u0439_1"
-      data-name="\u0421\u043B\u043E\u0439 1"
+      id="_Слой_1"
+      data-name="Слой 1"
       viewBox="396.49 407.16 507.01 85.68"
       {...props}
     >
